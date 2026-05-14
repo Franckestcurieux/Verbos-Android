@@ -278,7 +278,7 @@ footer span{color:var(--gold);}
   .ch-content{gap:.9rem;padding:0 1rem;}
   .ch-btn{width:1.85rem;height:1.85rem;}
   .ch-inner,.am-section{padding:2rem 1.2rem;}
-  .am-section.alt-bg .am-inner{padding:2rem 1.2rem;}
+  .alt-bg > .am-inner{padding:2rem 1.2rem;}
   body{padding:0;}
   h2{font-size:1.75rem;}
   .am-sn{font-size:3.2rem;}
@@ -1401,15 +1401,17 @@ const chH       = () => parseInt(getComputedStyle(document.documentElement).getP
 function updateAll(){
   const sw = switcherH(), nv = navH(), ch = chH();
   const topOffset = sw + nv;
-  // 1. Fiches: parallax — désactivé sur appareils lents
+  // 1. Fiches: parallax — désactivé sur appareils lents, ignoré hors viewport
   if (!isSlowDevice) {
+    const vpBottom = window.innerHeight + 300;
     document.querySelectorAll('.chapter').forEach(chapter => {
+      const chRect = chapter.getBoundingClientRect();
+      if (chRect.bottom < -300 || chRect.top > vpBottom) return; /* hors écran */
       const header = chapter.querySelector('.ch-header');
       const bg     = chapter.querySelector('.ch-bg');
       const body   = chapter.querySelector('.ch-body');
       if(!header || !bg) return;
-      const speed   = parseFloat(bg.dataset.speed || 0.3);
-      const chRect  = chapter.getBoundingClientRect();
+      const speed    = parseFloat(bg.dataset.speed || 0.3);
       const progress = Math.max(0, topOffset - chRect.top);
       bg.style.transform = `translate3d(0, ${progress * speed}px, 0)`;
       if(body){
@@ -1443,8 +1445,10 @@ function updateActiveNav(navSel, anchorSel, offset){
   });
 }
 
-/* Détection appareil lent — désactive le parallax si nécessaire */
+/* Détection appareil lent ou préférence utilisateur */
+const _urlParams = new URLSearchParams(location.search);
 const isSlowDevice =
+  _urlParams.get('parallax') === '0' ||
   window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
   navigator.hardwareConcurrency < 4;
 
