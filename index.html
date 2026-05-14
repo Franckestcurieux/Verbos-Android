@@ -18,9 +18,9 @@
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <title>Conjugação — Português do Brasil</title>
 <meta name="description" content="Entraîne-toi à conjuguer les verbes portugais (Brésil) — présent, passé, imparfait. Application progressive pour apprenants francophones.">
-<link rel="stylesheet" href="style.css?v=iota18">
-<link rel="stylesheet" href="stats.css?v=iota18">
-<link rel="stylesheet" href="nav.css?v=iota18">
+<link rel="stylesheet" href="style.css?v=iota19">
+<link rel="stylesheet" href="stats.css?v=iota19">
+<link rel="stylesheet" href="nav.css?v=iota19">
 </head>
 <body lang="fr">
 
@@ -409,7 +409,7 @@
             <div class="ref-am-badge">Anti-Manuel</div>
             <h2 class="ref-am-title">Portugais Brésilien<br><em>depuis le français</em></h2>
             <p class="ref-am-desc">La plupart des manuels te demandent de désapprendre ta langue pour apprendre l'autre. Cet anti-manuel fait l'inverse — il part de ce que tu fais déjà sans le nommer. Vingt siècles de latin commun entre le français et le portugais brésilien.</p>
-            <a href="ref-fr.html" target="_blank" class="ref-am-btn">📖 Ouvrir l'Anti-Manuel</a>
+            <button onclick="openAntiManuel()" class="ref-am-btn">📖 Ouvrir l'Anti-Manuel</button>
           </div>
           <div class="ref-am-features">
             <div class="ref-am-feat">🔊 <strong>Phonologie</strong> — Tes nasales françaises préparent directement <em>ã, em, om</em></div>
@@ -684,7 +684,7 @@ window.App = (function () {
 }());
 
 /* ── Version unique ── */
-window.APP_VERSION = 'iota 18';
+window.APP_VERSION = 'iota 19';
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('[data-app-version]').forEach(function (el) {
     el.textContent = window.APP_VERSION;
@@ -751,21 +751,21 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- ═══════════════════════════════════════════════
      SCRIPTS — ordre : data → core → ui → init
      ═══════════════════════════════════════════════ -->
-<script defer src="js/i18n.js?v=iota18"></script>
-<script defer src="js/data.js?v=iota18"></script>
-<script defer src="js/tts.js?v=iota18"></script>
-<script defer src="js/core.js?v=iota18"></script>
-<script defer src="js/engine.js?v=iota18"></script>
-<script defer src="js/ui-selection.js?v=iota18"></script>
-<script defer src="js/ui-ref.js?v=iota18"></script>
-<script defer src="js/voice.js?v=iota18"></script>
-<script defer src="js/stats.js?v=iota18"></script>
-<script defer src="js/stats-ui.js?v=iota18"></script>
-<script defer src="js/ecoute.js?v=iota18"></script>
-<script defer src="js/router.js?v=iota18"></script>
-<script defer src="js/splash.js?v=iota18"></script>
-<script defer src="js/mode-erreurs.js?v=iota18"></script>
-<script defer src="js/init.js?v=iota18"></script>
+<script defer src="js/i18n.js?v=iota19"></script>
+<script defer src="js/data.js?v=iota19"></script>
+<script defer src="js/tts.js?v=iota19"></script>
+<script defer src="js/core.js?v=iota19"></script>
+<script defer src="js/engine.js?v=iota19"></script>
+<script defer src="js/ui-selection.js?v=iota19"></script>
+<script defer src="js/ui-ref.js?v=iota19"></script>
+<script defer src="js/voice.js?v=iota19"></script>
+<script defer src="js/stats.js?v=iota19"></script>
+<script defer src="js/stats-ui.js?v=iota19"></script>
+<script defer src="js/ecoute.js?v=iota19"></script>
+<script defer src="js/router.js?v=iota19"></script>
+<script defer src="js/splash.js?v=iota19"></script>
+<script defer src="js/mode-erreurs.js?v=iota19"></script>
+<script defer src="js/init.js?v=iota19"></script>
 
 <!-- Service Worker -->
 <script>
@@ -773,6 +773,28 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js?v=' + (window.APP_VERSION||'').replace(/\s/g,''))
     .then(function(r) { console.log('[SW] Registered:', r.scope); })
     .catch(function(e) { console.warn('[SW] Registration failed:', e); });
+}
+</script>
+  <!-- ── Overlay Anti-Manuel ── -->
+  <div id="amOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#0d1b2a;flex-direction:column;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#0d1b2a;border-bottom:1px solid rgba(201,168,76,.3);flex-shrink:0;">
+      <span style="font-family:Georgia,serif;color:#c9a84c;font-size:.85rem;letter-spacing:.1em;">Anti-Manuel</span>
+      <button onclick="closeAntiManuel()" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:#c9a84c;border-radius:6px;padding:6px 14px;font-size:.82rem;cursor:pointer;">✕ Fermer</button>
+    </div>
+    <iframe id="amFrame" src="" style="flex:1;border:none;width:100%;background:#f5f0e8;" title="Anti-Manuel"></iframe>
+  </div>
+
+<script>
+function openAntiManuel() {
+  var o = document.getElementById('amOverlay');
+  var f = document.getElementById('amFrame');
+  if (f.src.indexOf('ref-fr.html') === -1) f.src = 'ref-fr.html';
+  o.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeAntiManuel() {
+  document.getElementById('amOverlay').style.display = 'none';
+  document.body.style.overflow = '';
 }
 </script>
 </body>

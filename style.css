@@ -796,7 +796,7 @@
 }
 
 /* ── Onglet Référence — Anti-Manuel ─────────────────────────────────────── */
-.ref-page-wrap { display:flex; flex-direction:column; padding:16px; gap:16px; }
+.ref-page-wrap { display:flex; flex-direction:column; padding:20px 18px 32px; gap:20px; }
 
 .ref-lang-card[data-lang-show] { display:none; }
 .ref-lang-card[data-lang-hide] { display:none; }
