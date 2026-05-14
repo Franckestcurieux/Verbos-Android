@@ -122,10 +122,29 @@ body{font-family:'Crimson Pro',Georgia,serif;background:var(--cream);color:var(-
 .alt-bg .am-sn{color:#f0f0f0;}
 .am-head{
   display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;
-  padding:.2rem 0 1rem;
-  border-top: 2px solid rgba(201,168,76,.25);
-  margin-top:.5rem;
+  position:sticky;
+  top:calc(var(--switcher-h) + var(--nav-h));
+  z-index:10;
+  margin:0 -1.5rem;
+  padding:.9rem 1.5rem .7rem;
+  background:var(--cream);
+  box-shadow:0 6px 20px rgba(13,27,42,.08);
+  overflow:hidden;
 }
+/* Fond atmosphérique sur le header sticky */
+.am-head::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 90% 100% at 0% 50%, rgba(201,168,76,.09) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 80% at 100% 30%, rgba(13,27,42,.06) 0%, transparent 55%);
+  pointer-events:none;
+  z-index:0;
+}
+.am-head > *{position:relative;z-index:1;}
+/* Blanc sur les sections françaises (alt-bg) */
+.alt-bg .am-head{background:white;}
 h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--midnight);margin-bottom:.4rem;line-height:1.2;}
 h2 em{font-style:italic;color:var(--gold);}
 .slang{font-size:.82rem;color:var(--text-light);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.8rem;padding-bottom:.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
@@ -183,22 +202,7 @@ h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;co
    TABLES (shared)
    ============================================================ */
 .tw{overflow-x:auto;margin:1.1rem 0;-webkit-overflow-scrolling:touch;max-width:100%;}
-.am-bg{
-  position:absolute;
-  inset:-40px 0;
-  background:
-    radial-gradient(ellipse 100% 70% at 15% 40%, rgba(201,168,76,.07) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 60% at 85% 65%, rgba(13,27,42,.05) 0%, transparent 55%);
-  pointer-events:none;
-  will-change:transform;
-  z-index:0;
-}
-#book-am .alt-bg > .am-inner,
-#book-am .am-section > .am-sn,
-#book-am .am-section > .am-head,
-#book-am .am-section > p,
-#book-am .am-section > div,
-#book-am .alt-bg > .am-inner > *{position:relative;z-index:1;}
+
 .tense-tag{display:inline-block;font-size:.78rem;background:rgba(201,168,76,.15);color:var(--amber);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:1px 5px;margin-left:4px;font-style:normal;white-space:nowrap;vertical-align:middle;}
 table.ctab{width:100%;border-collapse:collapse;font-size:.88rem;}
 table.ctab th{background:var(--midnight);color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:600;padding:.6rem .85rem;text-align:left;font-size:.82rem;letter-spacing:.04em;}
@@ -1447,17 +1451,7 @@ function updateAll(){
     });
   }
 
-  // 2. Parallax sections Anti-Manuel
-  document.querySelectorAll('.am-bg').forEach(function(bg) {
-    var sec = bg.parentElement;
-    var rect = sec.getBoundingClientRect();
-    if (rect.bottom < -300 || rect.top > vpBottom) return;
-    var speed = parseFloat(bg.dataset.speed || 0.18);
-    var progress = Math.max(0, topOffset - rect.top);
-    bg.style.transform = 'translate3d(0,' + (progress * speed) + 'px,0)';
-  });
-
-  // 3. Anti-manuel nav: highlight active section
+  // 2. Anti-manuel nav: highlight active section
   updateActiveNav('#am-nav', '[id^="s"]', topOffset);
 
   // 3. Fiches nav: highlight active chapter
@@ -1491,16 +1485,6 @@ function _onScroll() {
 }
 window.addEventListener('scroll', _onScroll, {passive: true});
 window.addEventListener('resize', _onScroll, {passive: true});
-
-// Init : injecter .am-bg dans chaque section AM
-document.querySelectorAll('#book-am .alt-bg, #book-am .am-section').forEach(function(sec) {
-  sec.style.position = 'relative';
-  sec.style.overflow = 'hidden';
-  var bg = document.createElement('div');
-  bg.className = 'am-bg';
-  bg.dataset.speed = '0.18';
-  sec.insertBefore(bg, sec.firstChild);
-});
 
 updateAll();
 
