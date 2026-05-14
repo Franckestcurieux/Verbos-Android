@@ -143,6 +143,18 @@ h2 em{font-style:italic;color:var(--gold);}
   backdrop-filter:blur(2px);
   -webkit-backdrop-filter:blur(2px);
 }
+.am-bg{
+  position:absolute;
+  inset:-40px 0;
+  will-change:transform;
+  opacity:1;
+}
+.alt-bg .am-header .am-bg{
+  background:linear-gradient(160deg, rgba(100,75,30,.75) 0%, rgba(160,130,75,.88) 40%, rgba(195,170,110,.95) 100%);
+}
+.am-section .am-header .am-bg{
+  background:linear-gradient(160deg, rgba(70,50,20,.78) 0%, rgba(130,100,50,.90) 40%, rgba(175,148,90,.96) 100%);
+}
 .am-header{border-bottom:1px solid rgba(201,168,76,.35);}
 
 
