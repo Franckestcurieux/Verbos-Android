@@ -338,7 +338,7 @@ footer span{color:var(--gold);}
   </div>
 </div>
 
-<div class="hero" id="top">
+<div class="hero" id="top" style="display:none">
 <div class="hero-bg"></div>
 <div class="hero-content">
 <p class="hero-label">Portugais Brésilien</p>
@@ -1477,13 +1477,12 @@ function updateActiveNav(navSel, anchorSel, offset){
     const active = href === '#' + current;
     a.classList.toggle('active', active);
     if(active) {
-      /* Centrer l'item actif dans la nav — scrollIntoView non fiable en iframe iOS */
-      var navEl = nav;
-      var aLeft = a.offsetLeft;
-      var aWidth = a.offsetWidth;
-      var navWidth = navEl.offsetWidth;
-      var target = aLeft - (navWidth / 2) + (aWidth / 2);
-      navEl.scrollTo({left: Math.max(0, target), behavior: 'smooth'});
+      /* Centrer l'item actif — calcul relatif viewport pour fiabilité iOS */
+      var aRect   = a.getBoundingClientRect();
+      var navRect = nav.getBoundingClientRect();
+      var relLeft = aRect.left - navRect.left; /* position visible de l'item */
+      var target  = nav.scrollLeft + relLeft - (nav.offsetWidth / 2) + (aRect.width / 2);
+      nav.scrollLeft = Math.max(0, target); /* direct, pas smooth (plus fiable iOS) */
     }
   });
 }
@@ -1521,10 +1520,15 @@ updateAll();
 function _hideAppNav() {
   var bs = document.getElementById('book-switcher');
   if (bs) bs.style.display = 'none';
+  /* Masquer le hero (70vh) qui pousse tout le contenu */
+  var hero = document.querySelector('.hero');
+  if (hero) hero.style.display = 'none';
   document.documentElement.style.setProperty('--switcher-h', '0px');
   document.querySelectorAll('.ch-btn.xbtn').forEach(function(b) {
     b.style.display = 'none';
   });
+  /* Remonter au sommet pour que la nav soit bien en haut */
+  window.scrollTo(0, 0);
 }
 window.addEventListener('message', function(e) {
   if (e.data && e.data.action === 'hideNav') _hideAppNav();
