@@ -18,7 +18,7 @@
   --red:#9b1d20; --red-light:#fde8e8;
   --blue:#1a5e7a; --blue-light:#d0eaf5;
   --border:#ddd3c0;
-  --switcher-h:48px; --nav-h:48px; --ch-h:105px;
+  --switcher-h:48px; --nav-h:36px; --ch-h:105px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -104,8 +104,8 @@ body{font-family:'Crimson Pro',Georgia,serif;background:var(--cream);color:var(-
 .section-nav::-webkit-scrollbar{display:none;}
 .section-nav a,.section-nav button{
   color:rgba(255,255,255,.4);text-decoration:none;
-  font-family:'Cormorant Garamond',serif;font-size:.77rem;
-  padding:.22rem .48rem;border-radius:3px;
+  font-family:'Cormorant Garamond',serif;font-size:.95rem;
+  padding:.1rem .42rem;border-radius:3px;
   transition:all .2s;white-space:nowrap;
   background:transparent;border:none;cursor:pointer;
 }
@@ -116,7 +116,17 @@ body{font-family:'Crimson Pro',Georgia,serif;background:var(--cream);color:var(-
    ANTI-MANUEL — SECTIONS
    ============================================================ */
 .am-section{padding:4.5rem 1.5rem;max-width:840px;margin:0 auto;}
-.am-section.alt-bg{background:white;max-width:100%;}
+.am-section.alt-bg{background:white;max-width:100%;position:relative;overflow:hidden;}
+.alt-bg::before{
+  content:'';
+  position:absolute;
+  inset:-40px 0;
+  background:radial-gradient(ellipse 80% 60% at 15% 40%, rgba(201,168,76,.06) 0%, transparent 65%),
+             radial-gradient(ellipse 60% 50% at 85% 70%, rgba(13,27,42,.04) 0%, transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+.alt-bg > .am-inner{position:relative;z-index:1;}
 .am-section.alt-bg .am-inner{max-width:840px;margin:0 auto;padding:4.5rem 1.5rem;}
 .am-sn{font-family:'Cormorant Garamond',serif;font-size:4.2rem;font-weight:700;color:var(--cream-dark);line-height:1;margin-bottom:-.7rem;letter-spacing:-.02em;}
 .alt-bg .am-sn{color:#f0f0f0;}
@@ -274,7 +284,7 @@ footer span{color:var(--gold);}
    RESPONSIVE
    ============================================================ */
 @media(max-width:640px){
-  :root{--switcher-h:44px;--nav-h:44px;--ch-h:88px;}
+  :root{--switcher-h:44px;--nav-h:32px;--ch-h:88px;}
   .ch-num{font-size:2.6rem;}
   .ch-content{gap:.9rem;padding:0 1rem;}
   .ch-btn{width:1.85rem;height:1.85rem;}
@@ -287,7 +297,7 @@ footer span{color:var(--gold);}
   .am-sn{font-size:3.2rem;}
   .grid{grid-template-columns:1fr 1fr;}
   .site-brand{display:none;}
-  .section-nav a,.section-nav button{font-size:.7rem;padding:.2rem .38rem;}
+  .section-nav a,.section-nav button{font-size:.88rem;padding:.08rem .32rem;}
   .td-pron{min-width:4.2rem;}
 }
 @media(max-width:380px){.grid{grid-template-columns:1fr;}}
@@ -1468,8 +1478,11 @@ updateAll();
 if (window.self !== window.top) {
   var bs = document.getElementById('book-switcher');
   if (bs) bs.style.display = 'none';
-  /* Réduire le padding-top des livres compensé par la barre */
   document.documentElement.style.setProperty('--switcher-h', '0px');
+  /* Masquer les boutons AM redondants dans les chapitres */
+  document.querySelectorAll('.ch-btn.xbtn').forEach(function(b) {
+    b.style.display = 'none';
+  });
 }
 </script>
 </body>
