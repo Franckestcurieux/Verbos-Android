@@ -18,7 +18,7 @@
   --red:#9b1d20; --red-light:#fde8e8;
   --blue:#1a5e7a; --blue-light:#d0eaf5;
   --border:#ddd3c0;
-  --switcher-h:48px; --nav-h:48px; --ch-h:155px;
+  --switcher-h:48px; --nav-h:48px; --ch-h:105px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -178,10 +178,11 @@ h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;co
    TABLES (shared)
    ============================================================ */
 .tw{overflow-x:auto;margin:1.1rem 0;-webkit-overflow-scrolling:touch;max-width:100%;}
+.tense-tag{display:inline-block;font-size:.68rem;background:rgba(201,168,76,.15);color:var(--amber);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:1px 5px;margin-left:4px;font-style:normal;white-space:nowrap;vertical-align:middle;}
 table.ctab{width:100%;border-collapse:collapse;font-size:.88rem;}
 table.ctab th{background:var(--midnight);color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:600;padding:.6rem .85rem;text-align:left;font-size:.82rem;letter-spacing:.04em;}
 table.ctab td{padding:.5rem .85rem;border-bottom:1px solid var(--border);vertical-align:top;}
-tr.even td, table.ctab tr:nth-child(even) td{background:rgba(245,240,232,.5);}
+tr.even td, table.ctab tr:nth-child(even) td{background:rgba(220,210,195,.45);}
 .alt-bg table.ctab tr:nth-child(even) td{background:rgba(248,248,248,.8);}
 
 /* ============================================================
@@ -217,7 +218,7 @@ tr.even td, table.ctab tr:nth-child(even) td{background:rgba(245,240,232,.5);}
 .ch-body{background:var(--cream);}
 .ch-body.alt{background:white;}
 .ch-inner{max-width:840px;margin:0 auto;padding:3rem 1.5rem;overflow-x:hidden;}
-.ch-body.alt tr:nth-child(even) td{background:rgba(248,248,248,.8);}
+.ch-body.alt tr:nth-child(even) td{background:rgba(255,255,255,.06);}
 
 /* CHAPTER COLORS */
 .ch1 .ch-bg{background:radial-gradient(ellipse at 20% 60%,#1a3a5c 0%,#0d1b2a 70%);}
@@ -273,14 +274,14 @@ footer span{color:var(--gold);}
    RESPONSIVE
    ============================================================ */
 @media(max-width:640px){
-  :root{--switcher-h:44px;--nav-h:44px;--ch-h:138px;}
+  :root{--switcher-h:44px;--nav-h:44px;--ch-h:88px;}
   .ch-num{font-size:2.6rem;}
   .ch-content{gap:.9rem;padding:0 1rem;}
   .ch-btn{width:1.85rem;height:1.85rem;}
-  .ch-inner,.am-section{padding:2rem 1.2rem;}
+  .ch-inner,.am-section{padding:2rem 0.65rem;}
   .ctab,.cg table{font-size:.75rem;}
   .tw{font-size:.75rem;}
-  .alt-bg > .am-inner{padding:2rem 1.2rem;}
+  .alt-bg > .am-inner{padding:2rem 0.65rem;}
   body{padding:0;}
   h2{font-size:1.75rem;}
   .am-sn{font-size:3.2rem;}
@@ -473,6 +474,7 @@ footer span{color:var(--gold);}
 <tr><td><strong>Passé simple</strong></td><td>Accompli, ponctuel</td><td>Écrit littéraire</td></tr>
 <tr><td><strong>Plus-que-parfait</strong></td><td>Accompli antérieur</td><td>Tous</td></tr>
 </tbody></table></div>
+<div class="cg c" style="margin:.8rem 0"><p><strong>Passé composé et passé simple sont interchangeables en sens</strong> — même valeur aspectuelle : accompli, ponctuel. Seul le registre diffère. À l'oral et à l'écrit courant, on utilise le passé composé. Dans la fiction, le journal littéraire, la narration soutenue : le passé simple.</p></div>
 <p>Le passé simple est quasi-mort à l'oral — sauf pour <em>être</em> : <em>"ce fut magnifique"</em> donne une clôture que le passé composé ne peut pas rendre.</p>
 </div></div>
 
@@ -526,10 +528,10 @@ footer span{color:var(--gold);}
 <div class="tw"><table class="ctab">
 <thead><tr><th>Usage</th><th>BP soutenu</th><th>BP oral courant</th></tr></thead>
 <tbody>
-<tr><td>Politesse</td><td><em>gostaria</em> — je voudrais</td><td><em>queria</em> — je voudrais (fam.)</td></tr>
-<tr><td>Hypothèse (apodose)</td><td><em>viajaria</em> — je voyagerais</td><td><em>viajava</em> — (imperfeito)</td></tr>
-<tr><td>Futur dans le passé</td><td><em>viria</em> — il viendrait</td><td><em>viria</em> — stable</td></tr>
-<tr><td>Probabilité passée</td><td><em>seriam umas 10h</em> — il devait être 10h</td><td><em>seriam</em> — stable</td></tr>
+<tr><td>Politesse</td><td><em>gostaria</em> — je voudrais <span class="tense-tag">condic. simples</span></td><td><em>queria</em> — je voudrais <span class="tense-tag">imperfeito</span></td></tr>
+<tr><td>Hypothèse (apodose)</td><td><em>viajaria</em> — je voyagerais <span class="tense-tag">condic. simples</span></td><td><em>viajava</em> — je voyagerais <span class="tense-tag">imperfeito</span></td></tr>
+<tr><td>Futur dans le passé</td><td><em>viria</em> — il viendrait <span class="tense-tag">condic. simples</span></td><td><em>viria</em> — stable <span class="tense-tag">condic. simples</span></td></tr>
+<tr><td>Probabilité passée</td><td><em>seriam umas 10h</em> — il devait être 10h <span class="tense-tag">condic. simples</span></td><td><em>seriam</em> — stable <span class="tense-tag">condic. simples</span></td></tr>
 </tbody></table></div>
 <div class="cr c"><p>Le BP très oral : <em>Se eu tinha dinheiro, eu comprava.</em> — les deux propositions à l'imperfeito. Agrammatical en français, courant en BP populaire.</p></div>
 </div></div>
