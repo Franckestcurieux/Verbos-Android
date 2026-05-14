@@ -115,12 +115,18 @@ body{font-family:'Crimson Pro',Georgia,serif;background:var(--cream);color:var(-
 /* ============================================================
    ANTI-MANUEL — SECTIONS
    ============================================================ */
-.am-section{padding:0 1.5rem 4rem;max-width:840px;margin:0 auto;}
+.am-section{padding:0 0 4rem;max-width:100%;}
 .am-section.alt-bg{background:white;max-width:100%;}
 .am-section.alt-bg .am-inner{max-width:840px;margin:0 auto;padding:0 1.5rem 4rem;}
 .am-sn{font-family:'Cormorant Garamond',serif;font-size:4.2rem;font-weight:700;color:var(--cream-dark);line-height:1;margin-bottom:-.7rem;letter-spacing:-.02em;}
-.alt-bg .am-sn{color:#f0f0f0;}
+.alt-bg 
 .am-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;flex:1;}
+/* Contenu des sections brésiliennes centré et limité */
+.am-section > p,
+.am-section > div:not(.am-header),
+.am-section > table,
+.am-section > h2,
+.am-section > h3{max-width:840px;margin-left:auto;margin-right:auto;padding-left:1.5rem;padding-right:1.5rem;}
 
 h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--midnight);margin-bottom:.4rem;line-height:1.2;}
 h2 em{font-style:italic;color:var(--gold);}
@@ -137,19 +143,9 @@ h2 em{font-style:italic;color:var(--gold);}
   backdrop-filter:blur(2px);
   -webkit-backdrop-filter:blur(2px);
 }
-.am-bg{
-  position:absolute;
-  inset:-40px 0;
-  will-change:transform;
-  opacity:1;
-}
 .am-header{border-bottom:1px solid rgba(201,168,76,.35);}
-.alt-bg .am-header .am-bg{
-  background:linear-gradient(160deg, rgba(100,75,30,.75) 0%, rgba(160,130,75,.88) 40%, rgba(195,170,110,.95) 100%);
-}
-.am-section .am-header .am-bg{
-  background:linear-gradient(160deg, rgba(70,50,20,.78) 0%, rgba(130,100,50,.90) 40%, rgba(175,148,90,.96) 100%);
-}
+
+
 .am-header .am-sn{flex-shrink:0;position:relative;z-index:1;color:rgba(255,255,255,.25);font-size:5rem;}
 .am-header .am-head{position:relative;z-index:1;background:transparent;}
 .am-header h2{color:#fff !important;}
@@ -160,17 +156,7 @@ p{margin-bottom:1rem;}
 h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--midnight);margin:2rem 0 .7rem;}
 h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--text-light);margin:1.3rem 0 .5rem;}
 
-/* Cross-link button */
-.xlink{
-  display:inline-flex;align-items:center;gap:.4rem;
-  font-family:'Cormorant Garamond',serif;font-size:.82rem;
-  color:var(--gold);border:1px solid rgba(201,168,76,.35);
-  padding:.2rem .7rem;border-radius:4px;cursor:pointer;
-  background:rgba(201,168,76,.07);transition:all .2s;
-  white-space:nowrap;letter-spacing:.04em;
-  text-decoration:none;
-}
-.xlink:hover{background:rgba(201,168,76,.18);border-color:var(--gold);}
+
 
 /* ============================================================
    ATOUTS GRID (AM §0)
@@ -209,10 +195,10 @@ h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;co
 /* ============================================================
    TABLES (shared)
    ============================================================ */
-.tw{overflow-x:auto;margin:1.1rem 0;-webkit-overflow-scrolling:touch;max-width:100%;}
+.tw{overflow-x:auto;margin:1.1rem 0;-webkit-overflow-scrolling:touch;max-width:100%;overscroll-behavior-x:contain;}
 
 .tense-tag{display:inline-block;font-size:.78rem;background:rgba(201,168,76,.15);color:var(--amber);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:1px 5px;margin-left:4px;font-style:normal;white-space:nowrap;vertical-align:middle;}
-table.ctab{width:100%;border-collapse:collapse;font-size:.88rem;}
+table.ctab{width:100%;border-collapse:collapse;font-size:.88rem;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
 table.ctab th{background:var(--midnight);color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:600;padding:.6rem .85rem;text-align:left;font-size:.82rem;letter-spacing:.04em;}
 table.ctab td{padding:.5rem .85rem;border-bottom:1px solid var(--border);vertical-align:top;}
 tr.even td, table.ctab tr:nth-child(even) td{background:rgba(220,210,195,.45);}
@@ -250,7 +236,7 @@ tr.even td, table.ctab tr:nth-child(even) td{background:rgba(220,210,195,.45);}
 /* CHAPTER BODY */
 .ch-body{background:var(--cream);}
 .ch-body.alt{background:white;}
-.ch-inner{max-width:840px;margin:0 auto;padding:3rem 1.5rem;overflow-x:hidden;}
+.ch-inner{max-width:840px;margin:0 auto;padding:3rem 1.5rem;}
 .ch-body.alt tr:nth-child(even) td{background:rgba(255,255,255,.06);}
 
 /* CHAPTER COLORS */
@@ -275,7 +261,7 @@ tr.even td, table.ctab tr:nth-child(even) td{background:rgba(220,210,195,.45);}
 .formation-title{font-family:'Cormorant Garamond',serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;opacity:.9;}
 .form-group{margin:.3rem 0 .9rem;}
 .form-group-label{color:var(--gold);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.45rem;opacity:.8;}
-.form-rs-table{width:100%;border-collapse:collapse;}
+.form-rs-table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
 .form-rs-table th{color:rgba(255,255,255,.38);font-family:'Cormorant Garamond',serif;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .45rem;border-bottom:1px solid rgba(255,255,255,.1);text-align:left;font-weight:400;}
 .form-rs-table td{padding:.25rem .45rem;font-size:.88rem;vertical-align:middle;}
 /* Light alternation on dark bg — NOT the cream color */
@@ -311,7 +297,7 @@ footer span{color:var(--gold);}
   .ch-num{font-size:2.6rem;}
   .ch-content{gap:.9rem;padding:0 1rem;}
   .ch-btn{width:1.85rem;height:1.85rem;}
-  .ch-inner,.am-section{padding:0 0.65rem 2rem;}
+  .ch-inner{padding:0 0.65rem 2rem;}
   .ctab,.cg table{font-size:.82rem;}
   .tw{font-size:.82rem;}
   .alt-bg > .am-inner{padding:0 0.65rem 2rem;}
@@ -1448,16 +1434,6 @@ function updateAll(){
     });
   }
 
-  // 2. Parallax Anti-Manuel — uniquement les .am-bg visibles
-  document.querySelectorAll('.am-bg').forEach(function(bg) {
-    var hdr = bg.parentElement;
-    var rect = hdr.getBoundingClientRect();
-    if (rect.bottom < -200 || rect.top > vpBottom) return;
-    var speed = parseFloat(bg.dataset.speed || 0.3);
-    var progress = Math.max(0, topOffset - rect.top);
-    bg.style.transform = 'translate3d(0,' + (progress * speed) + 'px,0)';
-  });
-
   /* Nav mise à jour dans updateAll() via scroll direct */
 }
 
@@ -1491,7 +1467,7 @@ function updateNavs() {
   activate('#fiches-nav', '[id$="-a"]');
 }
 
-function initNavObservers() { /* remplacé par scroll direct */ }
+
 
 
 
