@@ -1,1533 +1,781 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portugais Brésilien — Anti-Manuel &amp; Fiches grammaticales</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
-<style>
-/* ============================================================
-   CSS VARIABLES
-   ============================================================ */
-:root{
-  --midnight:#0d1b2a; --gold:#c9a84c; --gold-light:#e8c97a;
-  --cream:#f5f0e8; --cream-dark:#ede7d9;
-  --text:#1a1208; --text-light:#5a4f40;
-  --green:#2d6a4f; --green-light:#d8f3dc;
-  --amber:#9b5e10; --amber-light:#fde8c8;
-  --red:#9b1d20; --red-light:#fde8e8;
-  --blue:#1a5e7a; --blue-light:#d0eaf5;
-  --border:#ddd3c0;
-  --switcher-h:0px; --nav-h:36px; --ch-h:120px;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Crimson Pro',Georgia,serif;background:var(--cream);color:var(--text);font-size:18px;line-height:1.75;}
-
-/* ============================================================
-   BOOK SWITCHER — top bar, always visible
-   ============================================================ */
-#book-switcher{
-  position:sticky;top:0;z-index:300;
-  background:var(--midnight);
-  height:var(--switcher-h);
-  display:flex;align-items:center;
-  justify-content:space-between;
-  padding:0 1.2rem;
-  border-bottom:2px solid rgba(201,168,76,.3);
-}
-.site-brand{
-  font-family:'Cormorant Garamond',serif;
-  color:var(--gold);font-size:.85rem;
-  letter-spacing:.15em;text-transform:uppercase;
-  white-space:nowrap;
-}
-.switcher-tabs{display:flex;gap:.3rem;}
-.stab{
-  font-family:'Cormorant Garamond',serif;
-  font-size:.82rem;letter-spacing:.04em;
-  padding:.3rem .9rem;border-radius:4px;
-  border:1px solid rgba(201,168,76,.25);
-  color:rgba(255,255,255,.45);
-  background:transparent;cursor:pointer;
-  transition:all .2s;white-space:nowrap;
-}
-.stab:hover{color:var(--gold);border-color:rgba(201,168,76,.6);}
-.stab.active{background:rgba(201,168,76,.15);color:var(--gold);border-color:rgba(201,168,76,.5);}
-
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero{
-  background:var(--midnight);min-height:70vh;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
-}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,#1a2f4a 0%,#0d1b2a 60%);}
-.hero-content{position:relative;z-index:2;text-align:center;padding:2rem;}
-.hero-label{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.4rem;opacity:0;animation:fadeUp .8s ease .2s forwards;}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,7vw,5rem);font-weight:300;color:white;line-height:1.15;margin-bottom:.5rem;opacity:0;animation:fadeUp .8s ease .4s forwards;}
-.hero h1 em{font-style:italic;color:var(--gold-light);}
-.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.5);font-style:italic;margin-bottom:2rem;opacity:0;animation:fadeUp .8s ease .6s forwards;}
-.hero-cta{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .8s ease .8s forwards;}
-.hero-btn{
-  font-family:'Cormorant Garamond',serif;font-size:.95rem;
-  padding:.55rem 1.5rem;border-radius:4px;cursor:pointer;
-  border:1px solid rgba(201,168,76,.5);transition:all .25s;
-  letter-spacing:.05em;
-}
-.hero-btn.primary{background:rgba(201,168,76,.2);color:var(--gold);}
-.hero-btn.primary:hover{background:rgba(201,168,76,.35);}
-.hero-btn.secondary{background:transparent;color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.2);}
-.hero-btn.secondary:hover{color:white;border-color:rgba(255,255,255,.5);}
-.scroll-hint{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.3);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;animation:pulse 2s ease-in-out infinite;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.8}}
-
-/* ============================================================
-   BOOK CONTAINER
-   ============================================================ */
-.book{display:none;}.book.visible{display:block;}
-
-
-/* ============================================================
-   SECTION NAV (shared by both books)
-   ============================================================ */
-.section-nav{
-  position:sticky;top:0;z-index:200;
-  background:var(--midnight);
-  border-bottom:1px solid rgba(201,168,76,.2);
-  height:var(--nav-h);display:flex;align-items:center;
-  padding:0 .8rem;gap:.2rem;
-  overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
-}
-.section-nav::-webkit-scrollbar{display:none;}
-.section-nav a,.section-nav button{
-  color:rgba(255,255,255,.4);text-decoration:none;
-  font-family:'Cormorant Garamond',serif;font-size:.95rem;
-  padding:.1rem .42rem;border-radius:3px;
-  transition:all .2s;white-space:nowrap;
-  background:transparent;border:none;cursor:pointer;
-}
-.section-nav a:hover,.section-nav a.active,
-.section-nav button:hover{color:var(--gold);background:rgba(201,168,76,.11);}
-
-/* ============================================================
-   ANTI-MANUEL — SECTIONS
-   ============================================================ */
-.am-section{padding:0 0 4rem;max-width:100%;}
-.am-section.alt-bg{background:white;max-width:100%;}
-.am-section.alt-bg .am-inner{max-width:840px;margin:0 auto;padding:0 1.5rem 4rem;}
-.am-sn{font-family:'Cormorant Garamond',serif;font-size:4.2rem;font-weight:700;color:var(--cream-dark);line-height:1;margin-bottom:-.7rem;letter-spacing:-.02em;}
-.alt-bg 
-.am-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;flex:1;}
-/* Contenu des sections brésiliennes centré et limité */
-.am-section > p,
-.am-section > div:not(.am-header),
-.am-section > table,
-.am-section > h2,
-.am-section > h3{max-width:840px;margin-left:auto;margin-right:auto;padding-left:1.5rem;padding-right:1.5rem;}
-
-h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--midnight);margin-bottom:.4rem;line-height:1.2;}
-h2 em{font-style:italic;color:var(--gold);}
-.am-header{
-  position:sticky;
-  top:calc(var(--switcher-h) + var(--nav-h));
-  z-index:100;
-  min-height:var(--ch-h);
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  gap:1.2rem;
-  padding:.6rem 1.5rem .5rem;
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
-}
-.am-bg{
-  position:absolute;
-  inset:-40px 0;
-  will-change:transform;
-  opacity:1;
-}
-.alt-bg .am-header .am-bg{
-  background:linear-gradient(160deg, rgba(100,75,30,.75) 0%, rgba(160,130,75,.88) 40%, rgba(195,170,110,.95) 100%);
-}
-.am-section .am-header .am-bg{
-  background:linear-gradient(160deg, rgba(70,50,20,.78) 0%, rgba(130,100,50,.90) 40%, rgba(175,148,90,.96) 100%);
-}
-.am-header{border-bottom:1px solid rgba(201,168,76,.35);}
-
-
-.am-header .am-sn{flex-shrink:0;position:relative;z-index:1;color:rgba(255,255,255,.25);font-size:5rem;}
-.am-header .am-head{position:relative;z-index:1;background:transparent;}
-.am-header h2{color:#fff !important;}
-.am-header h2 em{color:rgba(232,200,74,.9) !important;}
-.am-header .slang{color:rgba(255,255,255,.7) !important;}
-.slang{font-size:.82rem;color:var(--text-light);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.8rem;padding-bottom:.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
-p{margin-bottom:1rem;}
-h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--midnight);margin:2rem 0 .7rem;}
-h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--text-light);margin:1.3rem 0 .5rem;}
-
-
-
-/* ============================================================
-   ATOUTS GRID (AM §0)
-   ============================================================ */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.9rem;margin:1.6rem 0;}
-.card{background:var(--midnight);color:white;padding:1.3rem;border-radius:8px;border-top:3px solid var(--gold);}
-.card-icon{font-size:1.7rem;margin-bottom:.6rem;}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--gold);margin-bottom:.4rem;}
-.card-text{font-size:.86rem;color:rgba(255,255,255,.72);line-height:1.5;}
-
-/* ============================================================
-   EXAMPLES
-   ============================================================ */
-.exblock{background:rgba(13,27,42,.04);border-radius:8px;padding:1rem 1.2rem;margin:1rem 0;}
-.alt-bg .exblock{background:rgba(13,27,42,.03);}
-.ch-body.alt .exblock{background:rgba(13,27,42,.03);}
-.exrow{display:flex;gap:.65rem;align-items:baseline;margin:.3rem 0;flex-wrap:wrap;}
-.exlang{font-size:.95rem;min-width:1.25rem;flex-shrink:0;}
-.extext{font-style:italic;color:var(--midnight);font-size:1rem;}
-.extr{font-size:.83rem;color:var(--text-light);padding:.03rem 0 .1rem 1.9rem;margin-top:-.2rem;}
-
-/* ============================================================
-   BADGES & CALLOUTS
-   ============================================================ */
-.badge{display:inline-flex;align-items:center;padding:.12rem .55rem;border-radius:20px;font-size:.82rem;font-family:'Cormorant Garamond',serif;letter-spacing:.04em;white-space:nowrap;}
-.bg{background:var(--green-light);color:var(--green);}
-.ba{background:var(--amber-light);color:var(--amber);}
-.br{background:var(--red-light);color:var(--red);}
-.bb{background:var(--blue-light);color:var(--blue);}
-.c{border-left:3px solid var(--gold);background:rgba(201,168,76,.08);padding:.9rem 1.2rem;margin:1.2rem 0;border-radius:0 6px 6px 0;}
-.cg{border-left-color:var(--green);background:var(--green-light);}
-.cr{border-left-color:var(--red);background:var(--red-light);}
-.cb{border-left-color:var(--blue);background:var(--blue-light);}
-.c p:last-child{margin-bottom:0;}
-
-/* ============================================================
-   TABLES (shared)
-   ============================================================ */
-.tw{overflow-x:auto;margin:1.1rem 0;-webkit-overflow-scrolling:touch;max-width:100%;overscroll-behavior-x:contain;}
-
-.tense-tag{display:inline-block;font-size:.78rem;background:rgba(201,168,76,.15);color:var(--amber);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:1px 5px;margin-left:4px;font-style:normal;white-space:nowrap;vertical-align:middle;}
-table.ctab{width:100%;border-collapse:collapse;font-size:.88rem;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
-table.ctab th{background:var(--midnight);color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:600;padding:.6rem .85rem;text-align:left;font-size:.82rem;letter-spacing:.04em;}
-table.ctab td{padding:.5rem .85rem;border-bottom:1px solid var(--border);vertical-align:top;}
-tr.even td, table.ctab tr:nth-child(even) td{background:rgba(220,210,195,.45);}
-.alt-bg table.ctab tr:nth-child(even) td{background:rgba(248,248,248,.8);}
-
-/* ============================================================
-   CHAPTER HEADERS — STICKY PARALLAX (Fiches)
-   ============================================================ */
-.chapter{position:relative;}
-.ch-header{
-  position:sticky;top:var(--nav-h);
-  z-index:100;height:var(--ch-h);overflow:hidden;
-  display:flex;align-items:center;
-  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
-}
-.ch-bg{
-  position:absolute;inset:-40px 0;
-  opacity:.65;transition:opacity .4s ease;
-}
-.ch-header.opaque .ch-bg{opacity:1;}
-.ch-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(13,27,42,.9) 0%,rgba(13,27,42,.5) 55%,transparent 100%);transition:opacity .4s;}
-.ch-header.opaque .ch-overlay{background:linear-gradient(to right,rgba(13,27,42,.97) 0%,rgba(13,27,42,.75) 55%,rgba(13,27,42,.2) 100%);}
-.ch-content{position:relative;z-index:2;display:flex;align-items:center;gap:1.3rem;padding:0 1.4rem;width:100%;}
-.ch-num{font-family:'Cormorant Garamond',serif;font-size:3.6rem;font-weight:700;color:rgba(201,168,76,.22);line-height:1;flex-shrink:0;}
-.ch-info{flex:1;min-width:0;}
-.ch-tag{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:.2rem;}
-.ch-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.25rem,3.5vw,1.8rem);font-weight:600;color:white;line-height:1.15;}
-.ch-title em{font-style:italic;color:var(--gold-light);}
-.ch-subtitle{font-size:.82rem;color:rgba(255,255,255,.48);font-style:italic;margin-top:.15rem;}
-.ch-nav{display:flex;flex-direction:column;gap:.35rem;flex-shrink:0;}
-.ch-btn{display:flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:50%;border:1px solid rgba(201,168,76,.35);color:var(--gold);text-decoration:none;font-size:.9rem;transition:all .2s;background:rgba(13,27,42,.4);cursor:pointer;}
-.ch-btn:hover{background:rgba(201,168,76,.2);border-color:var(--gold);}
-.ch-btn.xbtn{display:none;}
-
-/* CHAPTER BODY */
-.ch-body{background:var(--cream);}
-.ch-body.alt{background:white;}
-.ch-inner{max-width:840px;margin:0 auto;padding:3rem 1.5rem;}
-.ch-body.alt tr:nth-child(even) td{background:rgba(255,255,255,.06);}
-
-/* CHAPTER COLORS */
-.ch1 .ch-bg{background:radial-gradient(ellipse at 20% 60%,#1a3a5c 0%,#0d1b2a 70%);}
-.ch2 .ch-bg{background:radial-gradient(ellipse at 70% 40%,#0f3352 0%,#0d1b2a 70%);}
-.ch3 .ch-bg{background:radial-gradient(ellipse at 30% 70%,#0e2d48 0%,#0d1b2a 70%);}
-.ch4 .ch-bg{background:radial-gradient(ellipse at 60% 30%,#122840 0%,#0d1b2a 70%);}
-.ch5 .ch-bg{background:radial-gradient(ellipse at 40% 60%,#0c2236 0%,#0d1b2a 70%);}
-.ch6 .ch-bg{background:radial-gradient(ellipse at 25% 50%,#3a1a1a 0%,#0d1b2a 70%);}
-.ch7 .ch-bg{background:radial-gradient(ellipse at 65% 45%,#2d1010 0%,#0d1b2a 70%);}
-.ch8 .ch-bg{background:radial-gradient(ellipse at 20% 60%,#4a1010 0%,#0d1b2a 70%);}
-.ch9 .ch-bg{background:radial-gradient(ellipse at 55% 35%,#2a1515 0%,#0d1b2a 70%);}
-.ch10 .ch-bg{background:radial-gradient(ellipse at 35% 65%,#351a10 0%,#0d1b2a 70%);}
-.ch11 .ch-bg{background:radial-gradient(ellipse at 30% 55%,#2a1a3a 0%,#0d1b2a 70%);}
-.ch12 .ch-bg{background:radial-gradient(ellipse at 60% 40%,#0d2e1f 0%,#0d1b2a 70%);}
-.ch13 .ch-bg{background:radial-gradient(ellipse at 25% 60%,#0a2818 0%,#0d1b2a 70%);}
-.ch14 .ch-bg{background:radial-gradient(ellipse at 50% 50%,#0f3322 0%,#0d1b2a 70%);}
-.ch15 .ch-bg{background:radial-gradient(ellipse at 40% 55%,#0c2a1c 0%,#0d1b2a 70%);}
-
-/* FORMATION TABLES */
-.formation{background:var(--midnight);color:white;border-radius:8px;padding:1.4rem;margin:1.4rem 0;}
-.formation-title{font-family:'Cormorant Garamond',serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;opacity:.9;}
-.form-group{margin:.3rem 0 .9rem;}
-.form-group-label{color:var(--gold);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.45rem;opacity:.8;}
-.form-rs-table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
-.form-rs-table th{color:rgba(255,255,255,.38);font-family:'Cormorant Garamond',serif;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .45rem;border-bottom:1px solid rgba(255,255,255,.1);text-align:left;font-weight:400;}
-.form-rs-table td{padding:.25rem .45rem;font-size:.88rem;vertical-align:middle;}
-/* Light alternation on dark bg — NOT the cream color */
-.form-rs-table tr:nth-child(even) td{background:rgba(255,255,255,.06);}
-.form-rs-table tr:nth-child(odd) td{background:transparent;}
-.td-pron{color:rgba(255,255,255,.36);font-size:.78rem;min-width:5rem;}
-.td-rad{color:rgba(255,255,255,.55);font-style:italic;}
-.td-plus{color:rgba(255,255,255,.22);padding:0 .12rem;}
-.td-suf{color:var(--gold);font-weight:600;}
-.td-eq{color:rgba(255,255,255,.18);padding:0 .12rem;}
-.td-form{color:white;font-style:italic;}
-.td-form strong{color:var(--gold-light);}
-.form-irreg{margin-top:.9rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.1);}
-.form-irreg-title{font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.33);margin-bottom:.5rem;}
-.irreg-list{display:flex;flex-wrap:wrap;gap:.35rem;}
-.irreg-item{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:.18rem .55rem;font-size:.82rem;font-style:italic;}
-.irreg-item strong{color:var(--gold);margin-right:.25rem;font-style:normal;}
-.form-note{font-size:.8rem;color:rgba(255,255,255,.42);margin-top:.45rem;font-style:italic;}
-
-/* KEY FORMS */
-.kf{display:flex;flex-wrap:wrap;gap:.45rem;margin:.9rem 0;}
-.kf span{background:var(--midnight);color:var(--gold);padding:.28rem .75rem;border-radius:4px;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;}
-
-/* FOOTER */
-footer{background:var(--midnight);color:rgba(255,255,255,.33);text-align:center;padding:3rem 2rem;font-family:'Cormorant Garamond',serif;font-size:.85rem;letter-spacing:.1em;}
-footer span{color:var(--gold);}
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media(max-width:640px){
-  :root{--switcher-h:44px;--nav-h:32px;--ch-h:110px;}
-  .ch-num{font-size:2.6rem;}
-  .ch-content{gap:.9rem;padding:0 1rem;}
-  .ch-btn{width:1.85rem;height:1.85rem;}
-  .ch-inner{padding:0 0.65rem 2rem;}
-  .ctab,.cg table{font-size:.82rem;}
-  .tw{font-size:.82rem;}
-  .alt-bg > .am-inner{padding:0 0.65rem 2rem;}
-  body{padding:0;}
-  h2{font-size:1.75rem;}
-  .am-sn{font-size:3.2rem;}
-  .grid{grid-template-columns:1fr 1fr;}
-  .site-brand{display:none;}
-  .section-nav a,.section-nav button{font-size:.88rem;padding:.08rem .32rem;}
-  .td-pron{min-width:4.2rem;}
-}
-@media(max-width:380px){.grid{grid-template-columns:1fr;}}
-</style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    body {background-color: #f2ece2}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.4px 'Helvetica Neue'; color: #ffffff; color: rgba(255, 255, 255, 0.4); -webkit-text-stroke: rgba(255, 255, 255, 0.4)}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 50.4px 'Helvetica Neue'; color: #e8e2d0; -webkit-text-stroke: #e8e2d0}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #483e31; -webkit-text-stroke: #483e31}
+    p.p5 {margin: 0.0px 0.0px 12.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #140f09; -webkit-text-stroke: #140f09}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 20.4px '.Apple Color Emoji UI'; color: #ffffff; -webkit-text-stroke: #ffffff}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #bc993c; -webkit-text-stroke: #bc993c}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.3px 'Helvetica Neue'; color: #ffffff; color: rgba(255, 255, 255, 0.72); -webkit-text-stroke: rgba(255, 255, 255, 0.72)}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.3px 'Helvetica Neue'; color: #ffffff; color: rgba(255, 255, 255, 0.72); -webkit-text-stroke: rgba(255, 255, 255, 0.72); background-color: #0c141f}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f; background-color: #0c141f; background-color: rgba(12, 20, 31, 0.031); min-height: 14.0px}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.3px 'Helvetica Neue'; color: #ffffff; color: rgba(255, 255, 255, 0.72); -webkit-text-stroke: rgba(255, 255, 255, 0.72); min-height: 12.0px}
+    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #bc993c; -webkit-text-stroke: #bc993c}
+    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.6px 'Helvetica Neue'; color: #140f09; -webkit-text-stroke: #140f09}
+    p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.4px '.Apple Color Emoji UI'; color: #140f09; -webkit-text-stroke: #140f09}
+    p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f}
+    p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.2px 'Helvetica Neue'; color: #483e31; -webkit-text-stroke: #483e31; background-color: #0c141f; background-color: rgba(12, 20, 31, 0.031)}
+    p.p17 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.2px 'Helvetica Neue'; color: #483e31; -webkit-text-stroke: #483e31}
+    p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #483e31; -webkit-text-stroke: #483e31}
+    p.p19 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #483e31; -webkit-text-stroke: #483e31; background-color: #0c141f; background-color: rgba(12, 20, 31, 0.039)}
+    p.p20 {margin: 0.0px 0.0px 12.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #24583e}
+    p.p21 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #24583e; -webkit-text-stroke: #24583e}
+    p.p22 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #884b0f; -webkit-text-stroke: #884b0f}
+    p.p23 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #870f19; -webkit-text-stroke: #870f19}
+    p.p24 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #174b67; -webkit-text-stroke: #174b67}
+    p.p25 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #140f09; -webkit-text-stroke: #140f09}
+    p.p26 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #24583e; -webkit-text-stroke: #24583e}
+    p.p27 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #870f19; -webkit-text-stroke: #870f19}
+    p.p28 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f; background-color: #0c141f; background-color: rgba(12, 20, 31, 0.031)}
+    p.p29 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px '.Apple Color Emoji UI'; color: #483e31; -webkit-text-stroke: #483e31; min-height: 12.0px}
+    p.p30 {margin: 0.0px 0.0px 12.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #24583e; background-color: #d0f1d4}
+    p.p31 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px 'Helvetica Neue'; color: #870f19}
+    p.p32 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #140f09; -webkit-text-stroke: #140f09; min-height: 21.0px}
+    p.p33 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #140f09; -webkit-text-stroke: #140f09; background-color: #fce2e2}
+    p.p34 {margin: 0.0px 0.0px 12.0px 0.0px; font: 9.8px '.Apple Color Emoji UI'; color: #483e31; -webkit-text-stroke: #483e31; min-height: 12.0px}
+    p.p35 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.4px '.SF NS'; color: #140f09; -webkit-text-stroke: #140f09; background-color: #0c141f; background-color: rgba(12, 20, 31, 0.031)}
+    p.p36 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f; background-color: #0c141f; background-color: rgba(12, 20, 31, 0.031); min-height: 15.0px}
+    p.p37 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px '.SF NS'; color: #483e31; -webkit-text-stroke: #483e31}
+    p.p38 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f; background-color: #0c141f; background-color: rgba(12, 20, 31, 0.039)}
+    p.p39 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.8px '.SF NS'; color: #483e31}
+    p.p40 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.4px 'Helvetica Neue'; color: #bc993c; -webkit-text-stroke: #bc993c; background-color: #0c141f}
+    p.p41 {margin: 0.0px 0.0px 12.0px 0.0px; text-align: center; font: 10.2px 'Helvetica Neue'; color: #bc993c; -webkit-text-stroke: #bc993c}
+    p.p42 {margin: 0.0px 0.0px 12.0px 0.0px; text-align: center; font: 9.8px 'Helvetica Neue'; color: #ffffff; color: rgba(255, 255, 255, 0.33); -webkit-text-stroke: rgba(255, 255, 255, 0.33)}
+    span.s1 {font-kerning: none; background-color: #0c141f}
+    span.s2 {font-kerning: none}
+    span.s3 {font-kerning: none; color: #bc993c; -webkit-text-stroke: 0px #bc993c}
+    span.s4 {font: 9.8px '.Apple Color Emoji UI'; font-kerning: none}
+    span.s5 {font-kerning: none; background-color: rgba(12, 20, 31, 0.031)}
+    span.s6 {font: 11.4px '.Apple Color Emoji UI'; font-kerning: none; background-color: rgba(12, 20, 31, 0.031)}
+    span.s7 {font: 10.2px 'Helvetica Neue'; font-kerning: none; background-color: rgba(12, 20, 31, 0.031)}
+    span.s8 {font: 9.8px 'Helvetica Neue'; font-kerning: none; color: #24583e; background-color: #d0f1d4; -webkit-text-stroke: 0px #24583e}
+    span.s9 {font-kerning: none; background-color: rgba(12, 20, 31, 0.039)}
+    span.s10 {font: 11.4px '.Apple Color Emoji UI'; font-kerning: none; background-color: rgba(12, 20, 31, 0.039)}
+    span.s11 {font: 10.0px 'Lucida Grande'; font-kerning: none; -webkit-text-stroke: 0px #000000}
+    span.s12 {font-kerning: none; -webkit-text-stroke: 0px #000000}
+    span.s13 {font-kerning: none; background-color: #fce2e2}
+    span.s14 {font: 10.2px 'Helvetica Neue'; font-kerning: none; background-color: #fce2e2}
+    span.s15 {font-kerning: none; background-color: #d0f1d4}
+    span.s16 {font-kerning: none; background-color: #fce3bc}
+    span.s17 {font-kerning: none; background-color: #c6e5f2}
+    span.s18 {text-decoration: underline ; font-kerning: none; background-color: rgba(12, 20, 31, 0.031)}
+    span.s19 {font: 9.4px 'Helvetica Neue'; font-kerning: none; color: #884b0f; background-color: rgba(188, 153, 60, 0.15); -webkit-text-stroke: 0px #884b0f}
+    span.s20 {font: 11.4px '.Apple Color Emoji UI'; font-kerning: none}
+    span.s21 {font: 9.8px '.SF NS'; font-kerning: none; -webkit-text-stroke: 0px #000000}
+    span.s22 {font: 9.8px '.Apple Color Emoji UI'; font-kerning: none; -webkit-text-stroke: 0px #000000}
+    span.s23 {font: 9.8px '.SF NS'; font-kerning: none}
+    span.s24 {font: 10.2px '.Apple Color Emoji UI'; font-kerning: none; color: rgba(255, 255, 255, 0.33); background-color: #0c141f; -webkit-text-stroke: 0px rgba(255, 255, 255, 0.33)}
+    span.s25 {font-kerning: none; color: rgba(255, 255, 255, 0.33); background-color: #0c141f; -webkit-text-stroke: 0px rgba(255, 255, 255, 0.33)}
+    td.td1 {width: 61.2px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td2 {width: 73.2px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td3 {width: 70.7px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td4 {width: 184.2px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td5 {width: 61.2px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td6 {width: 73.2px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td7 {width: 70.7px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td8 {width: 184.2px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td9 {width: 61.2px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td10 {width: 73.2px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td11 {width: 70.7px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td12 {width: 184.2px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td13 {width: 87.1px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td14 {width: 76.0px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td15 {width: 153.5px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td16 {width: 87.1px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td17 {width: 76.0px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td18 {width: 153.5px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td19 {width: 87.1px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td20 {width: 76.0px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td21 {width: 153.5px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td22 {width: 98.0px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td23 {width: 146.0px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td24 {width: 222.0px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td25 {width: 98.0px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td26 {width: 146.0px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td27 {width: 222.0px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td28 {width: 98.0px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td29 {width: 146.0px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td30 {width: 222.0px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td31 {width: 93.1px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td32 {width: 101.6px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td33 {width: 79.0px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td34 {width: 93.1px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td35 {width: 101.6px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td36 {width: 79.0px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td37 {width: 93.1px; background-color: #f6f6f6; background-color: rgba(246, 246, 246, 0.8); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td38 {width: 101.6px; background-color: #f6f6f6; background-color: rgba(246, 246, 246, 0.8); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td39 {width: 79.0px; background-color: #f6f6f6; background-color: rgba(246, 246, 246, 0.8); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td40 {width: 167.0px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td41 {width: 107.0px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td42 {width: 233.0px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td43 {width: 167.0px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td44 {width: 107.0px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td45 {width: 233.0px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td46 {width: 167.0px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td47 {width: 107.0px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td48 {width: 233.0px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td49 {width: 100.8px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td50 {width: 245.4px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td51 {width: 175.1px; background-color: #0c141f; margin: 0.5px 0.5px 0.5px 0.5px; padding: 7.2px 10.2px 7.2px 10.2px}
+    td.td52 {width: 100.8px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td53 {width: 245.4px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td54 {width: 175.1px; margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td55 {width: 100.8px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td56 {width: 245.4px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+    td.td57 {width: 175.1px; background-color: #d3c8b6; background-color: rgba(211, 200, 182, 0.45); margin: 0.5px 0.5px 0.5px 0.5px; border-style: solid; border-width: 0.0px 0.0px 1.0px 0.0px; border-color: #140f09 #140f09 #d5c9b3 #140f09; padding: 6.0px 10.2px 6.0px 10.2px}
+  </style>
 </head>
 <body>
-<!-- ============================================================
-     BOOK SWITCHER + HERO
-     ============================================================ -->
-<div id="book-switcher" style="display:none">
-  <span class="site-brand">&#127463;&#127479; Portugais Brésilien</span>
-  <div class="switcher-tabs" style="display:none">
-    <button class="stab active" id="tab-am" onclick="switchBook('am')">&#128218; Anti-Manuel</button>
-    <button class="stab" id="tab-fiches" onclick="switchBook('fiches')">&#128203; Fiches</button>
-  </div>
-</div>
-
-<div class="hero" id="top" style="display:none">
-<div class="hero-bg" style="display:none"></div>
-<div class="hero-content" style="display:none">
-<p class="hero-label">Portugais Brésilien</p>
-<h1>Anti-Manuel &amp;<br><em>Fiches grammaticales</em></h1>
-<p class="hero-sub">Partir de ce qu'on fait sans le savoir</p>
-<div class="hero-cta" style="display:none">
-  <button class="hero-btn primary" onclick="switchBook('am');scrollToTop()">&#128218; Anti-Manuel</button>
-  <button class="hero-btn secondary" onclick="switchBook('fiches');scrollToTop()">&#128203; Fiches grammaticales</button>
-</div>
-</div>
-<p class="scroll-hint">&#8595; choisir un livre</p>
-</div>
-
-<!-- ============================================================
-     BOOK 1 — ANTI-MANUEL
-     ============================================================ -->
-<div id="book-am" class="book visible">
-
-<nav class="section-nav" id="am-nav">
-<a href="#s0" data-nav="am">0 — Chance</a>
-<a href="#s1" data-nav="am">1 — Présent FR</a>
-<a href="#s2" data-nav="am">2 — Présent BR</a>
-<a href="#s3" data-nav="am">3 — Futur FR</a>
-<a href="#s4" data-nav="am">4 — Futur BR</a>
-<a href="#s5" data-nav="am">5 — Passé FR</a>
-<a href="#s6" data-nav="am">6 — Passé BR</a>
-<a href="#s7" data-nav="am">7 — Cond. FR</a>
-<a href="#s8" data-nav="am">8 — Cond. BR</a>
-<a href="#s9" data-nav="am">9 — Subj. FR</a>
-<a href="#s10" data-nav="am">10 — Subj. BR</a>
-<a href="#s11" data-nav="am">11 — Ant. FR</a>
-<a href="#s12" data-nav="am">12 — Ant. BR</a>
-</nav>
-
-<!-- S0 -->
-<div id="s0"><div class="am-section">
-<div class="am-sn">0</div>
-<div class="am-head"><div>
-<h2>La chance du <em>francophone</em></h2>
-<div class="slang">Pourquoi le français est une position privilégiée</div>
-</div></div>
-<p>La plupart des manuels te demandent de désapprendre ta langue pour apprendre l'autre. Cet anti-manuel fait l'inverse — il part de ce que tu fais déjà sans le nommer. Le portugais brésilien et le français partagent vingt siècles de latin commun.</p>
-<div class="grid">
-<div class="card"><div class="card-icon">&#128067;</div><div class="card-title">Voyelles nasales</div><div class="card-text">an, in, on, un — tes nasales françaises préparent directement ã, em, om, im. Ce que les anglophones doivent acquérir laborieusement, tu le produis naturellement.</div></div>
-<div class="card"><div class="card-icon">&#9203;</div><div class="card-title">Aspect verbal</div><div class="card-text">Tu distingues accompli/inaccompli — passé composé vs imparfait. C'est exactement la logique centrale du portugais. L'anglophone construit cette catégorie de zéro.</div></div>
-<div class="card"><div class="card-icon">&#10024;</div><div class="card-title">Subjonctif vivant</div><div class="card-text">Tu l'utilises abondamment à l'oral. Le portugais brésilien en est tout aussi friand. Transfert quasi-direct.</div></div>
-<div class="card"><div class="card-icon">&#128207;</div><div class="card-title">Distance optimale</div><div class="card-text">Ni trop proche comme l'espagnol (portuñol), ni trop loin comme l'allemand. Le cerveau se met en mode "langue étrangère" tout en bénéficiant de transferts massifs.</div></div>
-</div>
-<div class="tw"><table class="ctab">
-<thead><tr><th>Langue</th><th>Proximité</th><th>Risque</th><th>Bilan</th></tr></thead>
-<tbody>
-<tr><td>Espagnol</td><td>&#9733;&#9733;&#9733;&#9733;&#9733;</td><td>Portuñol</td><td>Excellent mais piège d'approximation</td></tr>
-<tr><td>Italien</td><td>&#9733;&#9733;&#9733;&#9733;</td><td>Modéré</td><td>Très bon</td></tr>
-<tr><td><strong>Français</strong></td><td><strong>&#9733;&#9733;&#9733;</strong></td><td><strong>Maîtrisable</strong></td><td><strong>Très bon + phonologie native</strong></td></tr>
-<tr><td>Anglais</td><td>&#9733;&#9733;</td><td>Faible</td><td>Vocabulaire fort, grammaire laborieuse</td></tr>
-<tr><td>Allemand</td><td>&#9733;</td><td>Quasi-nul</td><td>Tout est à construire</td></tr>
-</tbody></table></div>
-</div></div>
-
-<!-- S1 -->
-<div id="s1" class="alt-bg"><div class="am-inner">
-<div class="am-sn">1</div>
-<div class="am-head">
-<div><h2>Le présent en <em>français</em></h2><div class="slang">&#127467;&#127479; Ce qu'on fait sans y penser</div></div>
-</div>
-<p>Le présent français recouvre six valeurs distinctes qu'on emploie instinctivement. Les rendre conscientes, c'est préparer le transfert vers le brésilien.</p>
-<h3>Les six usages</h3>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je chante chaque soir.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— habituel</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il est médecin depuis vingt ans.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— état</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Hier au bloc — l'urgence arrive, j'examine, je décide.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— narratif</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je pars demain à 8h.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— futur certain</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">J'arrive !</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— imminence</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Si tu pars, je reste.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— hypothèse logique</span></div>
-</div>
-</div></div>
-
-<!-- S2 -->
-<div id="s2"><div class="am-section">
-<div class="am-sn">2</div>
-<div class="am-head">
-<div><h2>Le présent en <em>brésilien</em></h2><div class="slang">&#127463;&#127479; Similarités et différences</div></div>
-</div>
-<p><span class="badge bg">Transfert direct</span> — Les six usages se retrouvent intégralement. Ton instinct fonctionne.</p>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Eu canto no coral toda semana.</span></div>
-<div class="extr">&#8594; Je chante dans le chœur chaque semaine.</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Eu saio amanhã às 8h.</span></div>
-<div class="extr">&#8594; Je pars demain à 8h. (futur certain)</div>
-</div>
-<div class="cr c">
-<p><strong>Le mur universel — SER vs ESTAR</strong></p>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Ele é nervoso.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— nerveux de caractère (trait)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Ele está nervoso.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— nerveux en ce moment (état)</span></div>
-<div class="exrow" style="margin-top:.4rem"><span class="exlang">&#127463;&#127479;</span><span class="extext">A Maria está bonita hoje.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— belle aujourd'hui (peut être une légère pique !)</span></div>
-</div>
-<div class="tw"><table class="ctab">
-<thead><tr><th>Point</th><th>Français</th><th>Brésilien</th></tr></thead>
-<tbody>
-<tr><td>Pronom de base</td><td><em>tu</em> (2e pers.)</td><td><em>você</em> → 3e pers. singulier</td></tr>
-<tr><td>Être</td><td>un seul verbe</td><td>ser + estar</td></tr>
-<tr><td>Présent-futur</td><td>courant</td><td>concurrencé par vou+inf à l'oral</td></tr>
-</tbody></table></div>
-</div></div>
-<!-- S3 -->
-<div id="s3" class="alt-bg"><div class="am-inner">
-<div class="am-sn">3</div>
-<div class="am-head">
-<div><h2>Le futur en <em>français</em></h2><div class="slang">&#127467;&#127479; Cinq façons d'exprimer le futur</div></div>
-</div>
-<p>Le futur français n'est pas un seul temps. Trois paramètres le définissent : le <strong>lien avec le présent</strong>, le <strong>degré de certitude</strong> et le <strong>registre</strong>.</p>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je pars demain. (présent — certitude maximale)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je vais chanter ce soir. (futur proche — conséquence du présent)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je reviendrai. (futur simple — promesse solennelle)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il a dit qu'il viendrait. (conditionnel — futur dans le passé)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">J'aurai fini avant toi. / Il aura raté son train. (futur antérieur)</span></div>
-</div>
-</div></div>
-
-<!-- S4 -->
-<div id="s4"><div class="am-section">
-<div class="am-sn">4</div>
-<div class="am-head">
-<div><h2>Le futur en <em>brésilien</em></h2><div class="slang">&#127463;&#127479; Similarités et différences</div></div>
-</div>
-<div class="tw"><table class="ctab">
-<thead><tr><th>Français</th><th>Brésilien</th><th>Transfert</th></tr></thead>
-<tbody>
-<tr><td>Présent futur</td><td>Presente</td><td><span class="badge bg">Direct</span></td></tr>
-<tr><td>Aller + inf</td><td>Ir + inf — <em>vou cantar</em></td><td><span class="badge bg">Parfait — ton instinct oral est juste</span></td></tr>
-<tr><td>Futur simple</td><td>Futuro simples — <em>cantarei</em></td><td><span class="badge ba">Même valeur — encore plus reculé à l'oral BP</span></td></tr>
-<tr><td>Conditionnel</td><td>Futuro do pretérito</td><td><span class="badge br">Recule vers l'imperfeito à l'oral</span></td></tr>
-<tr><td>Futur antérieur</td><td>Futuro composto — <em>terei cantado</em></td><td><span class="badge bg">Direct</span></td></tr>
-<tr><td>—</td><td>Haver de + inf</td><td><span class="badge bb">Destin — pas d'équivalent FR</span></td></tr>
-</tbody></table></div>
-<div class="cr c">
-<p><strong>La double retraite orale en BP</strong></p>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je voudrais un café. (conditionnel, stable en FR)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Eu queria um café. (imperfeito, oral BP)</span></div>
-<div class="extr">&#8594; En BP oral, le conditionnel recule aussi vers l'imperfeito — pas seulement le futur simple vers ir+inf.</div>
-</div>
-</div></div>
-
-<!-- S5 -->
-<div id="s5" class="alt-bg"><div class="am-inner">
-<div class="am-sn">5</div>
-<div class="am-head">
-<div><h2>Le passé en <em>français</em></h2><div class="slang">&#127467;&#127479; L'aspect avant le temps</div></div>
-</div>
-<p>La distinction centrale n'est pas chronologique mais <strong>aspectuelle</strong> : accompli vs inaccompli, croisé avec le registre oral/écrit.</p>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Pendant qu'il <u>pleuvait</u> [décor continu], elle <u>est entrée</u> [événement ponctuel].</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je <u>préparais</u> la sauce quand le téléphone <u>a sonné</u>.</span></div>
-</div>
-<div class="tw"><table class="ctab">
-<thead><tr><th>Temps</th><th>Aspect</th><th>Registre</th></tr></thead>
-<tbody>
-<tr><td><strong>Imparfait</strong></td><td>Inaccompli, duratif</td><td>Tous</td></tr>
-<tr><td><strong>Passé composé</strong></td><td>Accompli, ponctuel</td><td>Oral</td></tr>
-<tr><td><strong>Passé simple</strong></td><td>Accompli, ponctuel</td><td>Écrit littéraire</td></tr>
-<tr><td><strong>Plus-que-parfait</strong></td><td>Accompli antérieur</td><td>Tous</td></tr>
-</tbody></table></div>
-<div class="cg c" style="margin:.8rem 0"><p><strong>Passé composé et passé simple sont interchangeables en sens</strong> — même valeur aspectuelle : accompli, ponctuel. Seul le registre diffère. À l'oral et à l'écrit courant, on utilise le passé composé. Dans la fiction, le journal littéraire, la narration soutenue : le passé simple.</p></div>
-<p>Le passé simple est quasi-mort à l'oral — sauf pour <em>être</em> : <em>"ce fut magnifique"</em> donne une clôture que le passé composé ne peut pas rendre.</p>
-</div></div>
-
-<!-- S6 -->
-<div id="s6"><div class="am-section">
-<div class="am-sn">6</div>
-<div class="am-head">
-<div><h2>Le passé en <em>brésilien</em></h2><div class="slang">&#127463;&#127479; Similarités et différences</div></div>
-</div>
-<div class="tw"><table class="ctab">
-<thead><tr><th>Brésilien</th><th>Équiv. français</th><th>Transfert</th></tr></thead>
-<tbody>
-<tr><td>Imperfeito — <em>cantava</em></td><td>Imparfait</td><td><span class="badge bg">Direct</span></td></tr>
-<tr><td>Perfeito simples — <em>cantei</em></td><td>PC + PS fusionnés</td><td><span class="badge bg">Simplification</span></td></tr>
-<tr><td>Perfeito composto — <em>tenho cantado</em></td><td>—</td><td><span class="badge br">Piège — répétition récente, pas événement unique</span></td></tr>
-<tr><td>M-q-pft composé — <em>tinha cantado</em></td><td>Plus-que-parfait</td><td><span class="badge bg">Direct</span></td></tr>
-<tr><td>M-q-pft simples — <em>cantara</em></td><td>Passé antérieur</td><td><span class="badge ba">Littéraire — prestige — 8 verbes</span></td></tr>
-</tbody></table></div>
-<div class="cr c">
-<p><strong>Le piège numéro un — tenho cantado ≠ j'ai chanté</strong></p>
-<div class="exrow" style="margin-top:.4rem"><span class="exlang">&#127463;&#127479;</span><span class="extext" style="color:var(--green)">✓ Eu <strong>cantei</strong> ontem.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— J'ai chanté hier. (événement unique)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext" style="color:var(--green)">✓ <strong>Tenho cantado</strong> muito ultimamente.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— Je chante beaucoup ces temps-ci. (répétition)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext" style="color:var(--red)">✗ Tenho cantado ontem.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— FAUX</span></div>
-</div>
-</div></div>
-
-<!-- S7 -->
-<div id="s7" class="alt-bg"><div class="am-inner">
-<div class="am-sn">7</div>
-<div class="am-head">
-<div><h2>Conditionnel et politesse en <em>français</em></h2><div class="slang">&#127467;&#127479; Stable à l'oral</div></div>
-</div>
-<p>Structure française : <strong>[Si]</strong> à l'imparfait → <strong>[Alors]</strong> au conditionnel.</p>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext"><strong>[Si]</strong> j'avais de l'argent, <strong>[Alors]</strong> je voyagerais.</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il a dit qu'il viendrait. (futur dans le passé)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je voudrais un café. (politesse — stable à l'oral)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Ce ne serait pas correct. (atténuation)</span></div>
-</div>
-</div></div>
-
-<!-- S8 -->
-<div id="s8"><div class="am-section">
-<div class="am-sn">8</div>
-<div class="am-head">
-<div><h2>Conditionnel en <em>brésilien</em></h2><div class="slang">&#127463;&#127479; Même valeur — recule à l'oral</div></div>
-</div>
-<div class="tw"><table class="ctab">
-<thead><tr><th>Usage</th><th>BP soutenu</th><th>BP oral courant</th></tr></thead>
-<tbody>
-<tr><td>Politesse</td><td><em>gostaria</em> — je voudrais <span class="tense-tag">condic. simples</span></td><td><em>queria</em> — je voudrais <span class="tense-tag">imperfeito</span></td></tr>
-<tr><td>Hypothèse [Alors]</td><td><em>viajaria</em> — je voyagerais <span class="tense-tag">condic. simples</span></td><td><em>viajava</em> — je voyagerais <span class="tense-tag">imperfeito</span></td></tr>
-<tr><td>Futur dans le passé</td><td><em>viria</em> — il viendrait <span class="tense-tag">condic. simples</span></td><td><em>viria</em> — stable <span class="tense-tag">condic. simples</span></td></tr>
-<tr><td>Probabilité passée</td><td><em>seriam umas 10h</em> — il devait être 10h <span class="tense-tag">condic. simples</span></td><td><em>seriam</em> — stable <span class="tense-tag">condic. simples</span></td></tr>
-</tbody></table></div>
-<div class="cr c"><p>Le BP très oral : <em>Se eu tinha dinheiro, eu comprava.</em> — les deux propositions à l'imperfeito. Agrammatical en français, courant en BP populaire.</p></div>
-</div></div>
-
-<!-- S9 -->
-<div id="s9" class="alt-bg"><div class="am-inner">
-<div class="am-sn">9</div>
-<div class="am-head">
-<div><h2>Le subjonctif en <em>français</em></h2><div class="slang">&#127467;&#127479; Vivant et abondant à l'oral</div></div>
-</div>
-<p>Ton atout majeur pour le brésilien. Tu l'utilises naturellement là où d'autres apprenants partent de zéro.</p>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il faut que tu viennes. — que tu fasses. — bien qu'il soit là.</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Bien qu'il chantât… (imparfait — littéraire)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Bien qu'il eût chanté… (plus-que-parfait — très littéraire, chic)</span></div>
-</div>
-</div></div>
-
-<!-- S10 -->
-<div id="s10"><div class="am-section">
-<div class="am-sn">10</div>
-<div class="am-head">
-<div><h2>Le subjonctif en <em>brésilien</em></h2><div class="slang">&#127463;&#127479; Et la grande surprise</div></div>
-</div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il faut que tu viennes.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">É preciso que você venha.</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Bien qu'il soit fatigué, il continue.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Embora ele esteja cansado, ele continua.</span></div>
-</div>
-<div class="cb c">
-<p><strong>Le futuro do subjuntivo — unique au portugais, vivant à l'oral</strong></p>
-<div class="exrow" style="margin-top:.4rem"><span class="exlang">&#127467;&#127479;</span><span class="extext">Quand tu arriveras, appelle-moi. (futur indicatif en FR)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Quando você chegar, me liga. (subj. futur en BP)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Se você quiser, podemos sair mais cedo.</span></div>
-<div class="extr">&#8594; Si tu veux, on peut partir plus tôt.</div>
-</div>
-<p>Les 8 irréguliers du futuro do subjuntivo :</p>
-<div class="kf">
-<span>for</span><span>tiver</span><span>puder</span><span>quiser</span>
-<span>fizer</span><span>souber</span><span>vier</span><span>disser</span>
-</div>
-</div></div>
-
-<!-- S11 -->
-<div id="s11" class="alt-bg"><div class="am-inner">
-<div class="am-sn">11</div>
-<div class="am-head">
-<div><h2>Passé antérieur et futur antérieur en <em>français</em></h2><div class="slang">&#127467;&#127479; Les temps de l'antériorité</div></div>
-</div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Quand il est arrivé, j'avais déjà terminé. (plus-que-parfait — courant)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Quand il eut fini, il sortit. (passé antérieur — littéraire)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">J'aurai fini avant que tu arrives. (futur antérieur — antériorité)</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il n'est pas là — il aura raté son train. (futur antérieur — supposition)</span></div>
-</div>
-</div></div>
-
-<!-- S12 -->
-<div id="s12"><div class="am-section">
-<div class="am-sn">12</div>
-<div class="am-head">
-<div><h2>Passé antérieur et futur antérieur en <em>brésilien</em></h2><div class="slang">&#127463;&#127479; Similarités et différences</div></div>
-</div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">J'avais déjà terminé.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Eu já <strong>tinha terminado</strong>. (courant, prioritaire)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Eu já <strong>terminara</strong>. (littéraire — prestige)</span></div>
-</div>
-<p>Les 8 formes du mais-que-perfeito simples — comme <em>"ce fut"</em> à l'oral en français :</p>
-<div class="kf">
-<span>fora</span><span>tivera</span><span>pudera</span><span>quisera</span>
-<span>fizera</span><span>soubera</span><span>viera</span><span>dissera</span>
-</div>
-<div class="cg c"><p><strong>Principe fondateur de cet anti-manuel</strong> — Le présent d'abord, solide et complet. Puis quelques formes rares, bien choisies, qui font tout l'effet. La langue s'apprend de l'intérieur, pas depuis un descriptif externe.</p></div>
-</div></div>
-
-</div><!-- /book-am -->
-<!-- ============================================================
-     BOOK 2 — FICHES GRAMMATICALES
-     ============================================================ -->
-<div id="book-fiches" class="book">
-
-<nav class="section-nav" id="fiches-nav">
-<a href="#ch1-a" data-nav="fiches">01 Présent</a>
-<a href="#ch2-a" data-nav="fiches">02 Ir+inf</a>
-<a href="#ch3-a" data-nav="fiches">03 Fut.simple</a>
-<a href="#ch4-a" data-nav="fiches">04 Fut.composé</a>
-<a href="#ch5-a" data-nav="fiches">05 Haver de</a>
-<a href="#ch6-a" data-nav="fiches">06 Imparf.</a>
-<a href="#ch7-a" data-nav="fiches">07 Perf.simples</a>
-<a href="#ch8-a" data-nav="fiches">08 Perf.composé</a>
-<a href="#ch9-a" data-nav="fiches">09 MQP composé</a>
-<a href="#ch10-a" data-nav="fiches">10 MQP simples</a>
-<a href="#ch11-a" data-nav="fiches">11 Cond.</a>
-<a href="#ch12-a" data-nav="fiches">12 Subj.pré.</a>
-<a href="#ch13-a" data-nav="fiches">13 Subj.imp.</a>
-<a href="#ch14-a" data-nav="fiches">14 Subj.fut.⭐</a>
-<a href="#ch15-a" data-nav="fiches">15 Subj.passé</a>
-</nav>
-
-<!-- helper: chapter_header(n, tag, title, em, sub, xlink_am_target, xlink_label, next_id, color_class) -->
-<div id="ch1-a"></div>
-<div class="chapter ch1">
-<div class="ch-header" id="fh1"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">01</div><div class="ch-info">
-<div class="ch-tag">Présent de l'indicatif</div>
-<div class="ch-title">Presente do <em>Indicativo</em></div>
-<div class="ch-subtitle">Six usages — un seul mur</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s1')" title="Anti-Manuel §1-2">&#128218; AM</button>
-<a href="#top" class="ch-btn" title="Haut">&#8679;</a>
-<a href="#ch2-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body"><div class="ch-inner">
-<h3>Formation — Radical + Suffixe</h3>
-<div class="formation">
-<div class="formation-title">Radical + Suffixe aux quatre personnes principales</div>
-<div class="form-group">
-<div class="form-group-label">-AR &nbsp;·&nbsp; cantar → <em>cant-</em></div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-o</td><td class="td-eq">=</td><td class="td-form"><strong>canto</strong></td></tr>
-<tr><td class="td-pron">você / ele</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-a</td><td class="td-eq">=</td><td class="td-form"><strong>canta</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-amos</td><td class="td-eq">=</td><td class="td-form"><strong>cantamos</strong></td></tr>
-<tr><td class="td-pron">vocês / eles</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-am</td><td class="td-eq">=</td><td class="td-form"><strong>cantam</strong></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-ER &nbsp;·&nbsp; comer → <em>com-</em> &nbsp;⚠ suffixes différents</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-o</td><td class="td-eq">=</td><td class="td-form"><strong>como</strong></td></tr>
-<tr><td class="td-pron">você / ele</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-e</td><td class="td-eq">=</td><td class="td-form"><strong>come</strong> <span style="color:rgba(255,255,255,.3);font-size:.82rem">(-a en -AR)</span></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-emos</td><td class="td-eq">=</td><td class="td-form"><strong>comemos</strong> <span style="color:rgba(255,255,255,.3);font-size:.82rem">(-amos)</span></td></tr>
-<tr><td class="td-pron">vocês / eles</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-em</td><td class="td-eq">=</td><td class="td-form"><strong>comem</strong> <span style="color:rgba(255,255,255,.3);font-size:.82rem">(-am)</span></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-IR &nbsp;·&nbsp; partir → <em>part-</em> &nbsp;⚠ nós différent</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">part-</td><td class="td-plus">+</td><td class="td-suf">-o</td><td class="td-eq">=</td><td class="td-form"><strong>parto</strong></td></tr>
-<tr><td class="td-pron">você / ele</td><td class="td-rad">part-</td><td class="td-plus">+</td><td class="td-suf">-e</td><td class="td-eq">=</td><td class="td-form"><strong>parte</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">part-</td><td class="td-plus">+</td><td class="td-suf">-imos</td><td class="td-eq">=</td><td class="td-form"><strong>partimos</strong> <span style="color:rgba(255,255,255,.3);font-size:.82rem">(-emos en -ER)</span></td></tr>
-<tr><td class="td-pron">vocês / eles</td><td class="td-rad">part-</td><td class="td-plus">+</td><td class="td-suf">-em</td><td class="td-eq">=</td><td class="td-form"><strong>partem</strong></td></tr>
-</tbody></table></div>
-<div class="form-irreg">
-<div class="form-irreg-title">Irréguliers clés (eu / você / eles)</div>
-<div class="irreg-list">
-<span class="irreg-item"><strong>ser</strong> sou / é / são</span>
-<span class="irreg-item"><strong>estar</strong> estou / está / estão</span>
-<span class="irreg-item"><strong>ter</strong> tenho / tem / têm</span>
-<span class="irreg-item"><strong>ir</strong> vou / vai / vão</span>
-<span class="irreg-item"><strong>fazer</strong> faço / faz / fazem</span>
-<span class="irreg-item"><strong>poder</strong> posso / pode / podem</span>
-<span class="irreg-item"><strong>querer</strong> quero / quer / querem</span>
-<span class="irreg-item"><strong>saber</strong> sei / sabe / sabem</span>
-<span class="irreg-item"><strong>vir</strong> venho / vem / vêm</span>
-</div></div></div>
-<h3>SER vs ESTAR — le mur</h3>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Sou médico. Ele é francês.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— ser : identité</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Estou cansado. Ela está em Paris.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— estar : état / lieu</span></div>
-</div>
-<div class="cr c">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Ele é nervoso.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— nerveux de caractère</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Ele está nervoso.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— nerveux en ce moment</span></div>
-<div class="exrow" style="margin-top:.4rem"><span class="exlang">&#127463;&#127479;</span><span class="extext">A Maria está bonita hoje.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— belle aujourd'hui (peut être une légère pique !)</span></div>
-</div>
-</div></div></div>
-<div id="ch2-a"></div>
-<div class="chapter ch2">
-<div class="ch-header" id="fh2"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">02</div><div class="ch-info">
-<div class="ch-tag">Futur proche</div>
-<div class="ch-title">Ir + Infinitivo</div>
-<div class="ch-subtitle">Futur périphrastique</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s3')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch3-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body alt"><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation"><div class="formation-title">Ir (présent) + Infinitif</div>
-<div class="form-group"><div class="form-group-label">-AR/-ER/-IR identiques · ex. cantar</div>
-<table class="form-rs-table"><thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead><tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">vou</td><td class="td-plus">+</td><td class="td-suf">∅</td><td class="td-eq">=</td><td class="td-form"><strong>vou cantar</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">vai</td><td class="td-plus">+</td><td class="td-suf">∅</td><td class="td-eq">=</td><td class="td-form"><strong>vai cantar</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">vamos</td><td class="td-plus">+</td><td class="td-suf">∅</td><td class="td-eq">=</td><td class="td-form"><strong>vamos cantar</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">vão</td><td class="td-plus">+</td><td class="td-suf">∅</td><td class="td-eq">=</td><td class="td-form"><strong>vão cantar</strong></td></tr>
-</tbody></table>
-<p class="form-note">L'infinitif reste invariable quel que soit le groupe.</p>
-</div>
-</div>
-<h3>Usage</h3><div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je vais chanter ce soir.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Vou cantar esta noite.</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il va pleuvoir.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Vai chover.</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Attention — tu vas tomber !</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Cuidado — você vai cair!</span></div>
-</div>
-<div class="bg c"><p><span class="badge bg">Transfert parfait — </span> on instinct oral est la bonne forme. Encore plus dominant qu'en français.</p></div>
-</div></div></div>
-<div id="ch3-a"></div>
-<div class="chapter ch3">
-<div class="ch-header" id="fh3"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">03</div><div class="ch-info">
-<div class="ch-tag">Futur simple</div>
-<div class="ch-title">Futuro Simples</div>
-<div class="ch-subtitle">Soutenu — recul à l'oral — futuro de probabilidade</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s3')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch4-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body "><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation"><div class="formation-title">Infinitif entier + suffixes (même pour -AR, -ER, -IR)</div>
-<div class="form-group"><div class="form-group-label">Tous groupes · ex. cantar</div>
-<table class="form-rs-table"><thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead><tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-ei</td><td class="td-eq">=</td><td class="td-form"><strong>cantarei</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-á</td><td class="td-eq">=</td><td class="td-form"><strong>cantará</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-emos</td><td class="td-eq">=</td><td class="td-form"><strong>cantaremos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-ão</td><td class="td-eq">=</td><td class="td-form"><strong>cantarão</strong></td></tr>
-</tbody></table>
-<p class="form-note">comer+ei=comerei · partir+ei=partirei — même logique.</p>
-</div>
-<div class="form-irreg"><div class="form-irreg-title">Irréguliers</div><div class="irreg-list">
-<span class="irreg-item"><strong>fazer</strong> farei/fará/farão</span>
-<span class="irreg-item"><strong>trazer</strong> trarei/trará</span>
-<span class="irreg-item"><strong>dizer</strong> direi/dirá</span>
-</div></div>
-</div>
-<h3>Usage</h3><div class="exblock">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Voltarei. (promesse solennelle)</span></div>
-<div class="extr">→ Je reviendrai.</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">O Brasil sediará a Copa em 2026.</span></div>
-<div class="extr">→ Le Brésil accueillera la Coupe. (officiel)</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Onde está ela? — Estará em casa.</span></div>
-<div class="extr">→ Où est-elle ? — Elle doit être chez elle. (probabilidade)</div>
-</div>
-</div></div></div>
-<div id="ch4-a"></div>
-<div class="chapter ch4">
-<div class="ch-header" id="fh4"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">04</div><div class="ch-info">
-<div class="ch-tag">Futur antérieur</div>
-<div class="ch-title">Futuro Composto</div>
-<div class="ch-subtitle">Ter (futur) + participe — transfert direct</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s11')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch5-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body alt"><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation"><div class="formation-title">Ter au futuro simples + participe passé invariable</div>
-<div class="form-group"><div class="form-group-label">ex. cantar</div>
-<table class="form-rs-table"><thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead><tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">terei</td><td class="td-plus">+</td><td class="td-suf">+cantado</td><td class="td-eq">=</td><td class="td-form"><strong>terei cantado</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">terá</td><td class="td-plus">+</td><td class="td-suf">+cantado</td><td class="td-eq">=</td><td class="td-form"><strong>terá cantado</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">teremos</td><td class="td-plus">+</td><td class="td-suf">+cantado</td><td class="td-eq">=</td><td class="td-form"><strong>teremos cantado</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">terão</td><td class="td-plus">+</td><td class="td-suf">+cantado</td><td class="td-eq">=</td><td class="td-form"><strong>terão cantado</strong></td></tr>
-</tbody></table>
-<p class="form-note">Le participe ne varie jamais avec ter : cantado, feito, vindo, dito…</p>
-</div>
-</div>
-<h3>Usage</h3><div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">J'aurai terminé avant que tu arrives.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Terei terminado antes de você chegar.</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il n'est pas là — il aura raté son train.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Ele não está aqui — terá perdido o trem. (probabilidade)</span></div>
-</div>
-<div class="bg c"><p><span class="badge bg">Même logique que le </span> utur antérieur français. À l'oral très courant : vou ter cantado.</p></div>
-</div></div></div>
-<!-- CH5 — HAVER DE -->
-<div id="ch5-a"></div>
-<div class="chapter ch5">
-<div class="ch-header" id="fh5"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">05</div><div class="ch-info">
-<div class="ch-tag">Futur de destin</div><div class="ch-title">Haver de + Infinitivo</div>
-<div class="ch-subtitle">Terra incognita — inévitabilité</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s3')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch6-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body"><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation">
-<div class="formation-title">Haver (irrégulier) + de + infinitif invariable</div>
-<div class="form-group">
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Haver</th><th></th><th>de + inf.</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-suf">hei</td><td class="td-plus">+</td><td class="td-rad">de cantar</td><td class="td-eq">=</td><td class="td-form"><strong>hei de cantar</strong></td></tr>
-<tr><td class="td-pron">você / ele</td><td class="td-suf">há</td><td class="td-plus">+</td><td class="td-rad">de cantar</td><td class="td-eq">=</td><td class="td-form"><strong>há de cantar</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-suf">havemos</td><td class="td-plus">+</td><td class="td-rad">de cantar</td><td class="td-eq">=</td><td class="td-form"><strong>havemos de cantar</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-suf">hão</td><td class="td-plus">+</td><td class="td-rad">de cantar</td><td class="td-eq">=</td><td class="td-form"><strong>hão de cantar</strong></td></tr>
-</tbody></table></div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Hei de vencer.</span></div>
-<div class="extr">&#8594; Je vaincrai — je suis destiné à vaincre.</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Há de chegar o dia em que tudo muda.</span></div>
-<div class="extr">&#8594; Le jour viendra où tout changera.</div>
-</div>
-<div class="cb c"><p><span class="badge bb">Terra incognita</span> — Pas d'équivalent en français. À reconnaître à la lecture plus qu'à produire en premier.</p></div>
-</div></div></div>
-
-<!-- CH6 — IMPERFEITO -->
-<div id="ch6-a"></div>
-<div class="chapter ch6">
-<div class="ch-header" id="fh6"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">06</div><div class="ch-info">
-<div class="ch-tag">Passé — Imparfait</div><div class="ch-title">Pretérito Imperfeito</div>
-<div class="ch-subtitle">Comme l'imparfait + imperfeito de polidez</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s5')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch7-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body alt"><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation">
-<div class="formation-title">Radical + Suffixe — deux groupes distincts</div>
-<div class="form-group">
-<div class="form-group-label">-AR · cantar → <em>cant-</em></div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-ava</td><td class="td-eq">=</td><td class="td-form"><strong>cantava</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-ava</td><td class="td-eq">=</td><td class="td-form"><strong>cantava</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-ávamos</td><td class="td-eq">=</td><td class="td-form"><strong>cantávamos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-avam</td><td class="td-eq">=</td><td class="td-form"><strong>cantavam</strong></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-ER et -IR · comer/partir ⚠ voyelle -ia</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">com-/part-</td><td class="td-plus">+</td><td class="td-suf">-ia</td><td class="td-eq">=</td><td class="td-form"><strong>comia/partia</strong> <span style="color:rgba(255,255,255,.28);font-size:.75rem">(-ava en -AR)</span></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-ia</td><td class="td-eq">=</td><td class="td-form"><strong>comia</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-íamos</td><td class="td-eq">=</td><td class="td-form"><strong>comíamos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-iam</td><td class="td-eq">=</td><td class="td-form"><strong>comiam</strong></td></tr>
-</tbody></table></div>
-<div class="form-irreg">
-<div class="form-irreg-title">Irréguliers</div>
-<div class="irreg-list">
-<span class="irreg-item"><strong>ser</strong> era/éramos</span>
-<span class="irreg-item"><strong>ter</strong> tinha/tínhamos</span>
-<span class="irreg-item"><strong>vir</strong> vinha/vínhamos</span>
-<span class="irreg-item"><strong>pôr</strong> punha/púnhamos</span>
-</div></div></div>
-<h3>Usage 1 — Décor, habitude (transfert direct)</h3>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Quand j'étais enfant, je chantais dans le chœur.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Quando eu era criança, cantava no coral.</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je préparais la sauce quand le téléphone a sonné.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Eu preparava o molho quando o telefone tocou.</span></div>
-</div>
-<h3>Usage 2 — Imperfeito de polidez (politesse)</h3>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Je voudrais un café. (conditionnel stable en FR)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Eu queria um café. (imperfeito, oral BP)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Se eu tivesse dinheiro, eu viajaria. (soutenu) / viajava. (oral)</span></div>
-<div class="extr">&#8594; Si j'avais de l'argent, je voyagerais.</div>
-</div>
-<div class="cr c"><p><strong>Piège principal</strong> — En BP oral, l'imperfeito absorbe la politesse ET l'hypothèse que le conditionnel gère en français. C'est le seul endroit où ton réflexe de francophone te pousse dans la mauvaise direction à l'oral.</p></div>
-</div></div></div>
-
-<!-- CH7 — PERFEITO SIMPLES -->
-<div id="ch7-a"></div>
-<div class="chapter ch7">
-<div class="ch-header" id="fh7"><div class="ch-bg" data-speed="0.25"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">07</div><div class="ch-info">
-<div class="ch-tag">Passé accompli</div><div class="ch-title">Pretérito Perfeito Simples</div>
-<div class="ch-subtitle">Passé composé + passé simple — un seul temps</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s5')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch8-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body"><div class="ch-inner">
-<h3>Formation — trois groupes distincts</h3>
-<div class="formation">
-<div class="formation-title">Radical + Suffixe — les trois groupes diffèrent</div>
-<div class="form-group">
-<div class="form-group-label">-AR · cantar → <em>cant-</em></div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-ei</td><td class="td-eq">=</td><td class="td-form"><strong>cantei</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-ou</td><td class="td-eq">=</td><td class="td-form"><strong>cantou</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-amos</td><td class="td-eq">=</td><td class="td-form"><strong>cantamos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-aram</td><td class="td-eq">=</td><td class="td-form"><strong>cantaram</strong></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-ER · comer → <em>com-</em> ⚠</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-i</td><td class="td-eq">=</td><td class="td-form"><strong>comi</strong> <span style="color:rgba(255,255,255,.28);font-size:.75rem">(-ei en -AR)</span></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-eu</td><td class="td-eq">=</td><td class="td-form"><strong>comeu</strong> <span style="color:rgba(255,255,255,.28);font-size:.75rem">(-ou)</span></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-emos</td><td class="td-eq">=</td><td class="td-form"><strong>comemos</strong> <span style="color:rgba(255,255,255,.28);font-size:.75rem">(-amos)</span></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-eram</td><td class="td-eq">=</td><td class="td-form"><strong>comeram</strong> <span style="color:rgba(255,255,255,.28);font-size:.75rem">(-aram)</span></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-IR · partir → <em>part-</em> ⚠</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">part-</td><td class="td-plus">+</td><td class="td-suf">-i</td><td class="td-eq">=</td><td class="td-form"><strong>parti</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">part-</td><td class="td-plus">+</td><td class="td-suf">-iu</td><td class="td-eq">=</td><td class="td-form"><strong>partiu</strong> <span style="color:rgba(255,255,255,.28);font-size:.75rem">(-eu en -ER)</span></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">part-</td><td class="td-plus">+</td><td class="td-suf">-imos</td><td class="td-eq">=</td><td class="td-form"><strong>partimos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">part-</td><td class="td-plus">+</td><td class="td-suf">-iram</td><td class="td-eq">=</td><td class="td-form"><strong>partiram</strong></td></tr>
-</tbody></table></div>
-<div class="form-irreg">
-<div class="form-irreg-title">Irréguliers — absolument clés</div>
-<div class="irreg-list">
-<span class="irreg-item"><strong>ser/ir</strong> fui/foi/foram</span>
-<span class="irreg-item"><strong>ter</strong> tive/teve/tiveram</span>
-<span class="irreg-item"><strong>fazer</strong> fiz/fez/fizeram</span>
-<span class="irreg-item"><strong>poder</strong> pude/pôde/puderam</span>
-<span class="irreg-item"><strong>querer</strong> quis/quis/quiseram</span>
-<span class="irreg-item"><strong>vir</strong> vim/veio/vieram</span>
-<span class="irreg-item"><strong>dizer</strong> disse/disseram</span>
-<span class="irreg-item"><strong>saber</strong> soube/souberam</span>
-<span class="irreg-item"><strong>estar</strong> estive/esteve/estiveram</span>
-<span class="irreg-item"><strong>ver</strong> vi/viu/viram</span>
-</div></div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">J'ai chanté hier soir. / Il prit son épée et traversa la forêt.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Cantei ontem à noite. / Ele pegou sua espada e atravessou a floresta.</span></div>
-<div class="extr">&#8594; Même temps pour les deux registres — la grande simplification.</div>
-</div>
-</div></div></div>
-
-<!-- CH8 -->
-<div id="ch8-a"></div>
-<div class="chapter ch8">
-<div class="ch-header" id="fh8"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">08</div><div class="ch-info">
-<div class="ch-tag">Passé répété ⚠ Piège</div><div class="ch-title">Pretérito Perfeito Composto</div>
-<div class="ch-subtitle">N'est PAS le passé composé français</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s6')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch9-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body alt"><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation">
-<div class="formation-title">Ter (présent) + participe passé invariable</div>
-<div class="form-group">
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Ter</th><th></th><th>Participe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-suf">tenho</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tenho cantado</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-suf">tem</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tem cantado</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-suf">temos</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>temos cantado</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-suf">têm</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>têm cantado</strong></td></tr>
-</tbody></table></div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Tenho cantado muito ultimamente.</span></div>
-<div class="extr">&#8594; Je chante beaucoup ces derniers temps. (répétition en cours — PAS "j'ai chanté")</div>
-</div>
-<div class="cr c">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext" style="color:var(--green)">✓ Eu cantei ontem.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— événement unique</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext" style="color:var(--red)">✗ Tenho cantado ontem.</span><span style="font-size:.85rem;color:var(--text-light);margin-left:.4rem">— FAUX</span></div>
-</div>
-</div></div></div>
-
-<!-- CH9 -->
-<div id="ch9-a"></div>
-<div class="chapter ch9">
-<div class="ch-header" id="fh9"><div class="ch-bg" data-speed="0.25"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">09</div><div class="ch-info">
-<div class="ch-tag">Plus-que-parfait — prioritaire</div><div class="ch-title">Mais-que-perfeito Composto</div>
-<div class="ch-subtitle">Tinha cantado — maîtriser en premier</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s11')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch10-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body"><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation">
-<div class="formation-title">Ter (imperfeito) + participe passé invariable</div>
-<div class="form-group">
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Ter (imparf.)</th><th></th><th>Participe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-suf">tinha</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tinha cantado</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-suf">tinha</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tinha cantado</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-suf">tínhamos</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tínhamos cantado</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-suf">tinham</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tinham cantado</strong></td></tr>
-</tbody></table>
-<p class="form-note">Variante soutenue : havia cantado / havíamos cantado.</p>
-</div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Quand il est arrivé, j'avais déjà terminé.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Quando ele chegou, eu já tinha terminado.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Ela nunca tinha visto o mar antes dessa viagem.</span></div>
-<div class="extr">&#8594; Elle n'avait jamais vu la mer avant ce voyage.</div>
-</div>
-<div class="cg c"><p><span class="badge bg">Forme prioritaire</span> — <em>Tinha cantado</em> est ton plus-que-parfait brésilien. Universel, courant. Maîtrise-le avant <em>cantara</em>.</p></div>
-</div></div></div>
-
-<!-- CH10 -->
-<div id="ch10-a"></div>
-<div class="chapter ch10">
-<div class="ch-header" id="fh10"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">10</div><div class="ch-info">
-<div class="ch-tag">Plus-que-parfait littéraire</div><div class="ch-title">Mais-que-perfeito Simples</div>
-<div class="ch-subtitle">8 verbes — prestige — comme "ce fut"</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s12')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch11-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body alt"><div class="ch-inner">
-<h3>Formation</h3>
-<p>Base : 3e pers. pl. du perfeito simples → retirer <strong>-ram</strong> → ajouter les terminaisons.</p>
-<div class="formation">
-<div class="formation-title">3pl. perfeito − ram + suffixes (voyelle selon le groupe)</div>
-<div class="form-group">
-<div class="form-group-label">-AR · cantaram → <em>canta-</em></div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Base</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu/você</td><td class="td-rad">canta-</td><td class="td-plus">+</td><td class="td-suf">-ra</td><td class="td-eq">=</td><td class="td-form"><strong>cantara</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">canta-</td><td class="td-plus">+</td><td class="td-suf">-ramos</td><td class="td-eq">=</td><td class="td-form"><strong>cantáramos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">canta-</td><td class="td-plus">+</td><td class="td-suf">-ram *</td><td class="td-eq">=</td><td class="td-form"><strong>cantaram *</strong></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-ER · comeram → <em>come-</em> ⚠ -e · -IR · partiram → <em>parti-</em> ⚠ -i</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Base</th><th></th><th>Suffixe</th><th></th><th>Formes</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu/você</td><td class="td-rad">come-/parti-</td><td class="td-plus">+</td><td class="td-suf">-ra</td><td class="td-eq">=</td><td class="td-form"><strong>comera / partira</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">come-/parti-</td><td class="td-plus">+</td><td class="td-suf">-ramos</td><td class="td-eq">=</td><td class="td-form"><strong>comêramos / partíramos</strong></td></tr>
-</tbody></table></div>
-<div class="form-irreg">
-<div class="form-irreg-title">Les 8 irréguliers à haute valeur de prestige</div>
-<div class="irreg-list">
-<span class="irreg-item"><strong>ser/ir</strong> fora</span><span class="irreg-item"><strong>ter</strong> tivera</span>
-<span class="irreg-item"><strong>poder</strong> pudera</span><span class="irreg-item"><strong>querer</strong> quisera</span>
-<span class="irreg-item"><strong>fazer</strong> fizera</span><span class="irreg-item"><strong>saber</strong> soubera</span>
-<span class="irreg-item"><strong>vir</strong> viera</span><span class="irreg-item"><strong>dizer</strong> dissera</span>
-</div></div></div>
-<p style="font-size:.84rem;color:var(--text-light)">* 3pl. identique au perfeito simples — ambiguïté levée par le contexte.</p>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Dissera-me que viria — e não veio.</span></div>
-<div class="extr">&#8594; Il m'avait dit qu'il viendrait — et il n'est pas venu.</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Ela fizera tudo que estava em seu poder.</span></div>
-<div class="extr">&#8594; Elle avait fait tout ce qui était en son pouvoir.</div>
-</div>
-</div></div></div>
-<!-- CH11 — CONDITIONNEL -->
-<div id="ch11-a"></div>
-<div class="chapter ch11">
-<div class="ch-header" id="fh11"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">11</div><div class="ch-info">
-<div class="ch-tag">Conditionnel</div><div class="ch-title">Futuro do Pretérito</div>
-<div class="ch-subtitle">Même valeur — recule à l'oral vers l'imperfeito</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s7')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch12-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body"><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation">
-<div class="formation-title">Infinitif entier + suffixes — identique pour -AR, -ER, -IR</div>
-<div class="form-group">
-<div class="form-group-label">Tous groupes · ex. cantar/comer/partir</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical (infinitif)</th><th></th><th>Suffixe</th><th></th><th>Formes</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">cantar-/comer-/partir-</td><td class="td-plus">+</td><td class="td-suf">-ia</td><td class="td-eq">=</td><td class="td-form"><strong>cantaria/comeria/partiria</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-ia</td><td class="td-eq">=</td><td class="td-form"><strong>cantaria</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-íamos</td><td class="td-eq">=</td><td class="td-form"><strong>cantaríamos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-iam</td><td class="td-eq">=</td><td class="td-form"><strong>cantariam</strong></td></tr>
-</tbody></table></div>
-<div class="form-irreg">
-<div class="form-irreg-title">3 irréguliers — mêmes que le futuro simples</div>
-<div class="irreg-list">
-<span class="irreg-item"><strong>fazer</strong> faria</span>
-<span class="irreg-item"><strong>trazer</strong> traria</span>
-<span class="irreg-item"><strong>dizer</strong> diria</span>
-</div></div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Ele disse que viria na semana seguinte.</span></div>
-<div class="extr">&#8594; Il a dit qu'il viendrait la semaine prochaine. (futur dans le passé — stable)</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Se eu tivesse dinheiro, eu viajaria. (soutenu) / viajava. (oral)</span></div>
-<div class="extr">&#8594; Si j'avais de l'argent, je voyagerais.</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Seriam umas 10h quando ele chegou.</span></div>
-<div class="extr">&#8594; Il devait être environ 10h. (probabilidade sur le passé — BP cond. / FR imparfait)</div>
-</div>
-</div></div></div>
-
-<!-- CH12 — SUBJ PRESENT -->
-<div id="ch12-a"></div>
-<div class="chapter ch12">
-<div class="ch-header" id="fh12"><div class="ch-bg" data-speed="0.25"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">12</div><div class="ch-info">
-<div class="ch-tag">Subjonctif présent</div><div class="ch-title">Presente do Subjuntivo</div>
-<div class="ch-subtitle">Mêmes contextes qu'en français — transfert direct</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s9')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch13-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body alt"><div class="ch-inner">
-<h3>Formation</h3>
-<p>Terminaisons <strong>inversées</strong> par rapport à l'indicatif : -ar prend des terminaisons en <em>-e</em>, -er/-ir prennent des terminaisons en <em>-a</em>.</p>
-<div class="formation">
-<div class="formation-title">Radical (1ère pers. présent ind. sans -o) + suffixes inversés</div>
-<div class="form-group">
-<div class="form-group-label">-AR → terminaisons -E · canto → <em>cant-</em></div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-e</td><td class="td-eq">=</td><td class="td-form"><strong>cante</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-e</td><td class="td-eq">=</td><td class="td-form"><strong>cante</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-emos</td><td class="td-eq">=</td><td class="td-form"><strong>cantemos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">cant-</td><td class="td-plus">+</td><td class="td-suf">-em</td><td class="td-eq">=</td><td class="td-form"><strong>cantem</strong></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-ER/-IR → terminaisons -A ⚠ inversé · como → <em>com-</em></div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-rad">com-/part-</td><td class="td-plus">+</td><td class="td-suf">-a</td><td class="td-eq">=</td><td class="td-form"><strong>coma/parta</strong> <span style="color:rgba(255,255,255,.28);font-size:.75rem">(-e en -AR)</span></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-a</td><td class="td-eq">=</td><td class="td-form"><strong>coma</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-amos</td><td class="td-eq">=</td><td class="td-form"><strong>comamos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">com-</td><td class="td-plus">+</td><td class="td-suf">-am</td><td class="td-eq">=</td><td class="td-form"><strong>comam</strong></td></tr>
-</tbody></table></div>
-<div class="form-irreg">
-<div class="form-irreg-title">Irréguliers clés</div>
-<div class="irreg-list">
-<span class="irreg-item"><strong>ser</strong> seja</span><span class="irreg-item"><strong>estar</strong> esteja</span>
-<span class="irreg-item"><strong>ir</strong> vá</span><span class="irreg-item"><strong>ter</strong> tenha</span>
-<span class="irreg-item"><strong>fazer</strong> faça</span><span class="irreg-item"><strong>poder</strong> possa</span>
-<span class="irreg-item"><strong>querer</strong> queira</span><span class="irreg-item"><strong>saber</strong> saiba</span>
-<span class="irreg-item"><strong>vir</strong> venha</span><span class="irreg-item"><strong>dar</strong> dê</span>
-</div></div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Il faut que tu viennes.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">É preciso que você venha.</span></div>
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Bien qu'il soit fatigué, il continue.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Embora ele esteja cansado, ele continua.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Espero que tudo dê certo.</span></div>
-<div class="extr">&#8594; J'espère que tout ira bien.</div>
-</div>
-<div class="cg c"><p><span class="badge bg">Transfert direct</span> — <em>Embora</em>=bien que / <em>para que</em>=pour que / <em>antes que</em>=avant que / <em>a menos que</em>=à moins que.</p></div>
-</div></div></div>
-
-<!-- CH13 — SUBJ IMPARF -->
-<div id="ch13-a"></div>
-<div class="chapter ch13">
-<div class="ch-header" id="fh13"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">13</div><div class="ch-info">
-<div class="ch-tag">Subjonctif imparfait</div><div class="ch-title">Imperfeito do Subjuntivo</div>
-<div class="ch-subtitle">[Si]…[Alors] — transfert direct</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s9')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch14-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body"><div class="ch-inner">
-<h3>Formation</h3>
-<p>Base : 3e pers. pl. perfeito − <strong>ram</strong> → ajouter <em>-sse</em> + terminaisons. Voyelle thématique différente selon le groupe.</p>
-<div class="formation">
-<div class="formation-title">3pl. perfeito − ram + -sse (voyelle selon le groupe)</div>
-<div class="form-group">
-<div class="form-group-label">-AR · cantaram → <em>cantass-</em> (voyelle A)</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Base</th><th></th><th>Terminaison</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu/você</td><td class="td-rad">cantass-</td><td class="td-plus">+</td><td class="td-suf">-e</td><td class="td-eq">=</td><td class="td-form"><strong>cantasse</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">cantáss-</td><td class="td-plus">+</td><td class="td-suf">-emos</td><td class="td-eq">=</td><td class="td-form"><strong>cantássemos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">cantass-</td><td class="td-plus">+</td><td class="td-suf">-em</td><td class="td-eq">=</td><td class="td-form"><strong>cantassem</strong></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-ER · comeram → <em>comess-</em> ⚠ voyelle E &nbsp;|&nbsp; -IR · partiram → <em>partiss-</em> ⚠ voyelle I</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Base</th><th></th><th>Terminaison</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu/você</td><td class="td-rad">comess-/partiss-</td><td class="td-plus">+</td><td class="td-suf">-e</td><td class="td-eq">=</td><td class="td-form"><strong>comesse / partisse</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">comêss-/partíss-</td><td class="td-plus">+</td><td class="td-suf">-emos</td><td class="td-eq">=</td><td class="td-form"><strong>comêssemos / partíssemos</strong></td></tr>
-</tbody></table></div>
-<div class="form-irreg">
-<div class="form-irreg-title">Irréguliers — même base que perfeito simples</div>
-<div class="irreg-list">
-<span class="irreg-item"><strong>ser/ir</strong> fosse</span><span class="irreg-item"><strong>ter</strong> tivesse</span>
-<span class="irreg-item"><strong>poder</strong> pudesse</span><span class="irreg-item"><strong>querer</strong> quisesse</span>
-<span class="irreg-item"><strong>fazer</strong> fizesse</span><span class="irreg-item"><strong>saber</strong> soubesse</span>
-<span class="irreg-item"><strong>vir</strong> viesse</span><span class="irreg-item"><strong>dizer</strong> dissesse</span>
-</div></div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Si j'avais plus de temps, j'étudierais plus.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Se eu tivesse mais tempo, estudaria mais.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Se eu fosse você, pensaria bem antes de decidir.</span></div>
-<div class="extr">&#8594; Si j'étais toi, je réfléchirais bien avant de décider.</div>
-</div>
-</div></div></div>
-
-<!-- CH14 — SUBJ FUTUR -->
-<div id="ch14-a"></div>
-<div class="chapter ch14">
-<div class="ch-header" id="fh14"><div class="ch-bg" data-speed="0.25"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">14</div><div class="ch-info">
-<div class="ch-tag">Subjonctif futur ⭐ Unique</div><div class="ch-title">Futuro do Subjuntivo</div>
-<div class="ch-subtitle">Vivant à l'oral — n'existe dans aucune autre langue romane</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s10')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a><a href="#ch15-a" class="ch-btn">&#8681;</a>
-</div></div></div>
-<div class="ch-body alt"><div class="ch-inner">
-<h3>Formation</h3>
-<p>Pour les réguliers : eu et você ont une forme <strong>identique à l'infinitif</strong>.</p>
-<div class="formation">
-<div class="formation-title">3pl. perfeito − ram + voyelle thématique (sans géminée -ss-)</div>
-<div class="form-group">
-<div class="form-group-label">-AR · cantar (= infinitif pour eu/você !)</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu/você</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">∅</td><td class="td-eq">=</td><td class="td-form"><strong>cantar</strong> = infinitif !</td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-mos</td><td class="td-eq">=</td><td class="td-form"><strong>cantarmos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">cantar-</td><td class="td-plus">+</td><td class="td-suf">-em</td><td class="td-eq">=</td><td class="td-form"><strong>cantarem</strong></td></tr>
-</tbody></table></div>
-<div class="form-group">
-<div class="form-group-label">-ER · comer / -IR · partir ⚠ voyelles différentes</div>
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Radical</th><th></th><th>Suffixe</th><th></th><th>Formes</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu/você</td><td class="td-rad">comer-/partir-</td><td class="td-plus">+</td><td class="td-suf">∅</td><td class="td-eq">=</td><td class="td-form"><strong>comer / partir</strong> = infinitif</td></tr>
-<tr><td class="td-pron">nós</td><td class="td-rad">comer-/partir-</td><td class="td-plus">+</td><td class="td-suf">-mos</td><td class="td-eq">=</td><td class="td-form"><strong>comermos / partirmos</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-rad">comer-/partir-</td><td class="td-plus">+</td><td class="td-suf">-em</td><td class="td-eq">=</td><td class="td-form"><strong>comerem / partirem</strong></td></tr>
-</tbody></table></div>
-<div class="form-irreg">
-<div class="form-irreg-title">Les 8 irréguliers — les mêmes qu'ailleurs</div>
-<div class="irreg-list">
-<span class="irreg-item"><strong>ser/ir</strong> for</span><span class="irreg-item"><strong>ter</strong> tiver</span>
-<span class="irreg-item"><strong>poder</strong> puder</span><span class="irreg-item"><strong>querer</strong> quiser</span>
-<span class="irreg-item"><strong>fazer</strong> fizer</span><span class="irreg-item"><strong>saber</strong> souber</span>
-<span class="irreg-item"><strong>vir</strong> vier</span><span class="irreg-item"><strong>dizer</strong> disser</span>
-</div></div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Quand tu arriveras, appelle-moi. (futur indicatif en FR)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Quando você chegar, me liga. (subj. futur en BP)</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Se você quiser, podemos sair mais cedo.</span></div>
-<div class="extr">&#8594; Si tu veux, on peut partir plus tôt.</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Assim que você souber, me avisa.</span></div>
-<div class="extr">&#8594; Dès que tu sauras, préviens-moi.</div>
-</div>
-<div class="cb c"><p><span class="badge bb">Acquisition pure</span> — Ton instinct FR te pousse vers le futur indicatif (quand tu arriveras) ou le présent (si tu veux). En BP ces contextes exigent le subj. futur. Une fois le principe compris, la formation est mécanique.</p></div>
-</div></div></div>
-
-<!-- CH15 — SUBJ PASSÉ -->
-<div id="ch15-a"></div>
-<div class="chapter ch15">
-<div class="ch-header" id="fh15"><div class="ch-bg" data-speed="0.3"></div><div class="ch-overlay"></div>
-<div class="ch-content"><div class="ch-num">15</div><div class="ch-info">
-<div class="ch-tag">Subjonctif passé</div><div class="ch-title">Passado do Subjuntivo</div>
-<div class="ch-subtitle">Antériorité dans les contextes subjonctifs</div>
-</div><div class="ch-nav">
-<button class="ch-btn xbtn" onclick="goToAM('s9')" title="AM">&#128218; AM</button>
-<a href="#top" class="ch-btn">&#8679;</a>
-<button class="ch-btn xbtn" onclick="switchBook('am');scrollToTop()" style="font-size:.6rem">fin&#8673;</button>
-</div></div></div>
-<div class="ch-body"><div class="ch-inner">
-<h3>Formation</h3>
-<div class="formation">
-<div class="formation-title">Ter (subjonctif présent) + participe passé invariable</div>
-<div class="form-group">
-<table class="form-rs-table">
-<thead><tr><th>Personne</th><th>Ter (subj. pré.)</th><th></th><th>Participe</th><th></th><th>Forme</th></tr></thead>
-<tbody>
-<tr><td class="td-pron">eu</td><td class="td-suf">tenha</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tenha cantado</strong></td></tr>
-<tr><td class="td-pron">você/ele</td><td class="td-suf">tenha</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tenha cantado</strong></td></tr>
-<tr><td class="td-pron">nós</td><td class="td-suf">tenhamos</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tenhamos cantado</strong></td></tr>
-<tr><td class="td-pron">vocês/eles</td><td class="td-suf">tenham</td><td class="td-plus">+</td><td class="td-rad">cantado</td><td class="td-eq">=</td><td class="td-form"><strong>tenham cantado</strong></td></tr>
-</tbody></table></div></div>
-<div class="exblock">
-<div class="exrow"><span class="exlang">&#127467;&#127479;</span><span class="extext">Bien qu'il soit parti tôt, il est arrivé en retard.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Embora ele tenha saído cedo, chegou atrasado.</span></div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">Fico feliz que ele tenha passado no exame.</span></div>
-<div class="extr">&#8594; Je suis content qu'il ait réussi son examen.</div>
-<div class="exrow"><span class="exlang">&#127463;&#127479;</span><span class="extext">É possível que ela já tenha chegado.</span></div>
-<div class="extr">&#8594; Il est possible qu'elle soit déjà arrivée.</div>
-</div>
-<div class="cg c"><p><span class="badge bg">Transfert direct</span> — Mêmes contextes qu'en français. Le plus facile à acquérir une fois qu'on maîtrise le presente do subjuntivo.</p></div>
-<div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;">
-<p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--midnight);font-style:italic;">Le présent d'abord, solide et complet.<br>Puis quelques formes rares, bien choisies,<br>qui font tout l'effet.</p>
-</div>
-</div></div></div>
-
-</div><!-- /book-fiches -->
-
-<footer>
-<p>&#127463;&#127479; Portugais Brésilien &middot; <span>Anti-Manuel</span> &amp; <span>Fiches grammaticales</span></p>
-<p style="margin-top:.4rem;font-size:.82rem;opacity:.45">Un seul fichier · Prêt pour le build</p>
-</footer>
-<script>
-/* ============================================================
-   STATE
-   ============================================================ */
-let currentBook = 'am';
-let savedScroll = {am: 0, fiches: 0};
-
-/* ============================================================
-   BOOK SWITCHER
-   ============================================================ */
-function switchBook(book){
-  // Save current scroll position
-  savedScroll[currentBook] = window.pageYOffset;
-
-  // Toggle books
-  document.getElementById('book-am').classList.toggle('visible', book === 'am');
-  document.getElementById('book-fiches').classList.toggle('visible', book === 'fiches');
-
-  // Update tabs
-  document.getElementById('tab-am').classList.toggle('active', book === 'am');
-  document.getElementById('tab-fiches').classList.toggle('active', book === 'fiches');
-
-  currentBook = book;
-
-  // Restore scroll (small delay to let DOM settle)
-  requestAnimationFrame(() => {
-    window.scrollTo(0, savedScroll[book]);
-    updateAll();
-    updateNavs();
-  });
-}
-
-function scrollToTop(){
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function goToAM(sectionId){
-  switchBook('am');
-  requestAnimationFrame(() => {
-    const el = document.getElementById(sectionId);
-    if(el){
-      const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--switcher-h'))
-                   + parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
-      const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
-      window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
-    }
-  });
-}
-
-function goToFiche(chId){
-  switchBook('fiches');
-  requestAnimationFrame(() => {
-    const el = document.getElementById(chId);
-    if(el){
-      const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--switcher-h'))
-                   + parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
-      const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
-      window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
-    }
-  });
-}
-
-/* ============================================================
-   SCROLL EFFECTS
-   ============================================================ */
-const switcherH = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--switcher-h'));
-const navH      = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
-const chH       = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--ch-h'));
-
-function updateAll(){
-  const sw = switcherH(), nv = navH(), ch = chH();
-  const topOffset = sw + nv;
-  // 1. Parallax Fiches — désactivé, le sticky naturel suffit
-  if (false) {
-    const vpBottom = window.innerHeight + 300;
-    document.querySelectorAll('.chapter').forEach(chapter => {
-      const chRect = chapter.getBoundingClientRect();
-      if (chRect.bottom < -300 || chRect.top > vpBottom) return; /* hors écran */
-      const header = chapter.querySelector('.ch-header');
-      const bg     = chapter.querySelector('.ch-bg');
-      const body   = chapter.querySelector('.ch-body');
-      if(!header || !bg) return;
-      const speed    = parseFloat(bg.dataset.speed || 0.3);
-      const progress = Math.max(0, topOffset - chRect.top);
-      bg.style.transform = `translate3d(0, ${progress * speed}px, 0)`;
-      if(body){
-        const br = body.getBoundingClientRect();
-        const opaque = br.top < (topOffset + ch) && br.bottom > topOffset;
-        header.classList.toggle('opaque', opaque);
-      }
-    });
-  }
-
-  /* Nav mise à jour dans updateAll() via scroll direct */
-}
-
-function updateNavs() {
-  var navH = parseInt(getComputedStyle(document.documentElement)
-              .getPropertyValue('--nav-h')) || 36;
-  var threshold = navH + 8;
-
-  function activate(navSel, anchorSel) {
-    var nav = document.querySelector(navSel);
-    if (!nav) return;
-    var current = '';
-    document.querySelectorAll(anchorSel).forEach(function(el) {
-      if (el.getBoundingClientRect().top <= threshold) current = el.id;
-    });
-    if (!current) return;
-    nav.querySelectorAll('a').forEach(function(a) {
-      var active = a.getAttribute('href') === '#' + current;
-      a.classList.toggle('active', active);
-      if (active) {
-        var aRect = a.getBoundingClientRect();
-        var nRect = nav.getBoundingClientRect();
-        var target = nav.scrollLeft + (aRect.left - nRect.left)
-                     - nav.offsetWidth / 2 + aRect.width / 2;
-        nav.scrollLeft = Math.max(0, Math.round(target));
-      }
-    });
-  }
-
-  activate('#am-nav',     '[id^="s"]');
-  activate('#fiches-nav', '[id$="-a"]');
-}
-
-
-
-
-
-/* Écouter scroll ET touch sur window ET document (iOS iframe) */
-['scroll', 'touchmove', 'touchend'].forEach(function(ev) {
-  window.addEventListener(ev, updateNavs, {passive: true});
-  document.addEventListener(ev, updateNavs, {passive: true});
-});
-window.addEventListener('scroll', updateAll, {passive: true});
-window.addEventListener('resize', function() {
-  updateAll();
-  updateNavs();
-}, {passive: true});
-
-/* Construire les .am-header (numéro + titre + fond) */
-document.querySelectorAll('#book-am .am-sn').forEach(function(sn) {
-  var head = sn.nextElementSibling;
-  if (!head || !head.classList.contains('am-head')) return;
-  var wrapper = document.createElement('div');
-  wrapper.className = 'am-header';
-  var bg = document.createElement('div');
-  bg.className = 'am-bg';
-  bg.dataset.speed = '0.3';
-  wrapper.appendChild(bg);
-  sn.parentNode.insertBefore(wrapper, sn);
-  wrapper.appendChild(sn);
-  wrapper.appendChild(head);
-});
-
-updateAll();
-
-/* Masquer la nav interne via postMessage depuis l'app parente */
-function _hideAppNav() {
-  var bs = document.getElementById('book-switcher');
-  if (bs) bs.style.display = 'none';
-  /* Masquer le hero (70vh) qui pousse tout le contenu */
-  var hero = document.querySelector('.hero');
-  if (hero) hero.style.display = 'none';
-  document.documentElement.style.setProperty('--switcher-h', '0px');
-  document.querySelectorAll('.ch-btn.xbtn').forEach(function(b) {
-    b.style.display = 'none';
-  });
-  /* Remonter au sommet pour que la nav soit bien en haut */
-  window.scrollTo(0, 0);
-}
-window.addEventListener('message', function(e) {
-  if (e.data && e.data.action === 'hideNav') _hideAppNav();
-});
-</script>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>0 — Chance</span></p>
+<p class="p1"><span class="s1">1 — Présent FR</span></p>
+<p class="p1"><span class="s1">2 — Présent BR</span></p>
+<p class="p1"><span class="s1">3 — Futur FR</span></p>
+<p class="p1"><span class="s1">4 — Futur BR</span></p>
+<p class="p1"><span class="s1">5 — Passé FR</span></p>
+<p class="p1"><span class="s1">6 — Passé BR</span></p>
+<p class="p1"><span class="s1">7 — Cond. FR</span></p>
+<p class="p1"><span class="s1">8 — Cond. BR</span></p>
+<p class="p1"><span class="s1">9 — Subj. FR</span></p>
+<p class="p1"><span class="s1">10 — Subj. BR</span></p>
+<p class="p1"><span class="s1">11 — Ant. FR</span></p>
+<p class="p1"><span class="s1">12 — Ant. BR</span></p>
+<p class="p2"><span class="s2">0</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">La chance du </span><span class="s3">francophone</span></h2>
+<p class="p4"><span class="s2">POURQUOI LE FRANÇAIS EST UNE POSITION PRIVILÉGIÉE</span></p>
+<p class="p5"><span class="s2">La plupart des manuels te demandent de désapprendre ta langue pour apprendre l'autre. Cet anti-manuel fait l'inverse — il part de ce que tu fais déjà sans le nommer. Le portugais brésilien et le français partagent vingt siècles de latin commun.</span></p>
+<p class="p6"><span class="s1">👃</span></p>
+<p class="p7"><span class="s1">Voyelles nasales</span></p>
+<p class="p8"><span class="s1">an, in, on, un — tes nasales françaises préparent directement ã, em, om, im. Ce que les anglophones doivent acquérir laborieusement, tu le produis naturellement.</span></p>
+<p class="p6"><span class="s1">⏳</span></p>
+<p class="p7"><span class="s1">Aspect verbal</span></p>
+<p class="p8"><span class="s1">Tu distingues accompli/inaccompli — passé composé vs imparfait. C'est exactement la logique centrale du portugais. L'anglophone construit cette catégorie de zéro.</span></p>
+<p class="p6"><span class="s1">✨</span></p>
+<p class="p7"><span class="s1">Subjonctif vivant</span></p>
+<p class="p9"><span class="s2">Tu l'utilises abondamment à l'oral. Le portugais brésilien en est tout aussi friand. Transfert quasi-direct.</span></p>
+<p class="p10"><span class="s2"></span><br></p>
+<p class="p11"><span class="s2"></span><br></p>
+<p class="p6"><span class="s1">📏</span></p>
+<p class="p7"><span class="s1">Distance optimale</span></p>
+<p class="p8"><span class="s1">Ni trop proche comme l'espagnol (portuñol), ni trop loin comme l'allemand. Le cerveau se met en mode "langue étrangère" tout en bénéficiant de transferts massifs.</span></p>
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p12"><span class="s2">Langue</span></p>
+      </td>
+      <td valign="middle" class="td2">
+        <p class="p12"><span class="s2">Proximité</span></p>
+      </td>
+      <td valign="middle" class="td3">
+        <p class="p12"><span class="s2">Risque</span></p>
+      </td>
+      <td valign="middle" class="td4">
+        <p class="p12"><span class="s2">Bilan</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td5">
+        <p class="p13"><span class="s2">Espagnol</span></p>
+      </td>
+      <td valign="top" class="td6">
+        <p class="p13"><span class="s2">★★★★★</span></p>
+      </td>
+      <td valign="top" class="td7">
+        <p class="p13"><span class="s2">Portuñol</span></p>
+      </td>
+      <td valign="top" class="td8">
+        <p class="p13"><span class="s2">Excellent mais piège d'approximation</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td9">
+        <p class="p13"><span class="s2">Italien</span></p>
+      </td>
+      <td valign="top" class="td10">
+        <p class="p13"><span class="s2">★★★★</span></p>
+      </td>
+      <td valign="top" class="td11">
+        <p class="p13"><span class="s2">Modéré</span></p>
+      </td>
+      <td valign="top" class="td12">
+        <p class="p13"><span class="s2">Très bon</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td5">
+        <p class="p13"><span class="s2">Français</span></p>
+      </td>
+      <td valign="top" class="td6">
+        <p class="p13"><span class="s2">★★★</span></p>
+      </td>
+      <td valign="top" class="td7">
+        <p class="p13"><span class="s2">Maîtrisable</span></p>
+      </td>
+      <td valign="top" class="td8">
+        <p class="p13"><span class="s2">Très bon + phonologie native</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td9">
+        <p class="p13"><span class="s2">Anglais</span></p>
+      </td>
+      <td valign="top" class="td10">
+        <p class="p13"><span class="s2">★★</span></p>
+      </td>
+      <td valign="top" class="td11">
+        <p class="p13"><span class="s2">Faible</span></p>
+      </td>
+      <td valign="top" class="td12">
+        <p class="p13"><span class="s2">Vocabulaire fort, grammaire laborieuse</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td5">
+        <p class="p13"><span class="s2">Allemand</span></p>
+      </td>
+      <td valign="top" class="td6">
+        <p class="p13"><span class="s2">★</span></p>
+      </td>
+      <td valign="top" class="td7">
+        <p class="p13"><span class="s2">Quasi-nul</span></p>
+      </td>
+      <td valign="top" class="td8">
+        <p class="p13"><span class="s2">Tout est à construire</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p2"><span class="s2">1</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Le présent en </span><span class="s3">français</span></h2>
+<p class="p4"><span class="s4">🇫🇷</span><span class="s2"> CE QU'ON FAIT SANS Y PENSER</span></p>
+<p class="p5"><span class="s2">Le présent français recouvre sept valeurs distinctes qu'on emploie instinctivement. Les rendre conscientes, c'est préparer le transfert vers le brésilien.</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Je chante chaque soir.</span></p>
+<p class="p16"><span class="s2">— habituel</span></p>
+<p class="p14"><span class="s6">🇫🇷</span></p>
+<p class="p15"><span class="s5">Il est en train de chanter.</span></p>
+<p class="p17"><span class="s5">— maintenant, tout de suite</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Il est médecin depuis vingt ans.</span></p>
+<p class="p17"><span class="s7">— état</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Hier au bloc — l'urgence arrive, j'examine, je décide.</span></p>
+<p class="p17"><span class="s7">— narratif</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Je pars demain à 8h.</span></p>
+<p class="p17"><span class="s7">— futur certain</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">J'arrive !</span></p>
+<p class="p17"><span class="s7">— imminence</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Si tu pars, je reste.</span></p>
+<p class="p17"><span class="s7">— hypothèse logique</span></p>
+<p class="p2"><span class="s2">2</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Le présent en </span><span class="s3">brésilien</span></h2>
+<p class="p4"><span class="s4">🇧🇷</span><span class="s2"> SIMILARITÉS ET DIFFÉRENCES</span></p>
+<p class="p5"><span class="s8">Transfert direct</span><span class="s2"> — Les six usages se retrouvent intégralement. Ton instinct fonctionne.</span></p>
+<p class="p14"><span class="s9">🇧🇷</span></p>
+<p class="p15"><span class="s9">Eu canto no coral toda semana.</span></p>
+<p class="p18"><span class="s9">→ Je chante dans le chœur chaque semaine.</span></p>
+<p class="p14"><span class="s9">🇧🇷</span></p>
+<p class="p15"><span class="s9">Eu saio amanhã às 8h.</span></p>
+<p class="p19"><span class="s2">→ Je pars demain à 8h. (futur certain)</span></p>
+<p class="p5"><span class="s8">Transfert quasi direct</span><span class="s2"> — Le présent Progressif : « être en train de »<span class="Apple-converted-space"> </span></span></p>
+<p class="p14"><span class="s10">🇧🇷</span></p>
+<p class="p15"><span class="s9">Ele está cantado</span></p>
+<p class="p19"><span class="s11">→</span><span class="s12"> </span><span class="s2">Il est en train de chanter.</span></p>
+<p class="p19"><span class="s2">#[DRAPEAU ANGLAIS]</span></p>
+<p class="p19"><span class="s11">→</span><span class="s12"> </span><span class="s2">He is signing.( #[signe different] He sings )</span></p>
+<p class="p18"><span class="s9">En brésilien c’est le <b>gérondif progressif</b>. En anglais, le<span class="Apple-converted-space">  </span>présent progressif que vous connaissez bien.</span></p>
+<p class="p5"><span class="s13">Le mur universel — SER vs ESTAR</span></p>
+<p class="p14"><span class="s13">🇧🇷</span></p>
+<p class="p15"><span class="s13">Ele é nervoso.</span></p>
+<p class="p17"><span class="s14">— nerveux de caractère (trait)</span></p>
+<p class="p14"><span class="s13">🇧🇷</span></p>
+<p class="p15"><span class="s13">Ele está nervoso.</span></p>
+<p class="p17"><span class="s14">— nerveux en ce moment (état)</span></p>
+<p class="p14"><span class="s13">🇧🇷</span></p>
+<p class="p15"><span class="s13">A Maria está bonita hoje.</span></p>
+<p class="p17"><span class="s14">— belle aujourd'hui (peut être une légère pique !)</span></p>
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td13">
+        <p class="p12"><span class="s2">Point</span></p>
+      </td>
+      <td valign="middle" class="td14">
+        <p class="p12"><span class="s2">Français</span></p>
+      </td>
+      <td valign="middle" class="td15">
+        <p class="p12"><span class="s2">Brésilien</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td16">
+        <p class="p13"><span class="s2">Pronom de base</span></p>
+      </td>
+      <td valign="top" class="td17">
+        <p class="p13"><span class="s2">tu (2e pers.)</span></p>
+      </td>
+      <td valign="top" class="td18">
+        <p class="p13"><span class="s2">você → 3e pers. singulier.<span class="Apple-converted-space"> </span></span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td19">
+        <p class="p13"><span class="s2">Être</span></p>
+      </td>
+      <td valign="top" class="td20">
+        <p class="p13"><span class="s2">un seul verbe</span></p>
+      </td>
+      <td valign="top" class="td21">
+        <p class="p13"><span class="s2">ser + estar</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td16">
+        <p class="p13"><span class="s2">Présent-futur</span></p>
+      </td>
+      <td valign="top" class="td17">
+        <p class="p13"><span class="s2">courant</span></p>
+      </td>
+      <td valign="top" class="td18">
+        <p class="p13"><span class="s2">En Br on utilise bien plus souvent : vou+inf à l'oral</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p2"><span class="s2">3</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Le futur en </span><span class="s3">français</span></h2>
+<p class="p4"><span class="s4">🇫🇷</span><span class="s2"> CINQ FAÇONS D'EXPRIMER LE FUTUR</span></p>
+<p class="p5"><span class="s2">Le futur français n'est pas un seul temps. Trois paramètres le définissent : le lien avec le présent, le degré de certitude et le registre.</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Je pars demain. (<b>présent</b> — certitude maximale)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Je vais chanter ce soir. (<b>futur proche</b> — conséquence du présent, <i>équivalent de I’am going to</i>)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Je reviendrai. (<b>futur simple</b> — promesse solennelle)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Il a dit qu'il viendrait. (<b>conditionnel</b> — futur dans le passé)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">J'aurai fini avant toi. / Il aura raté son train. (<b>futur antérieur</b>)</span></p>
+<p class="p2"><span class="s2">4</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Le futur en </span><span class="s3">brésilien</span></h2>
+<p class="p20"><span class="s15">Transfert direct dans l’essentiel des cas.</span></p>
+<p class="p4"><span class="s4">🇧🇷</span><span class="s2"> SIMILARITÉS ET DIFFÉRENCES</span></p>
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td22">
+        <p class="p12"><span class="s2">Français</span></p>
+      </td>
+      <td valign="middle" class="td23">
+        <p class="p12"><span class="s2">Brésilien</span></p>
+      </td>
+      <td valign="middle" class="td24">
+        <p class="p12"><span class="s2">Transfert</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td25">
+        <p class="p13"><span class="s2">Présent futur</span></p>
+      </td>
+      <td valign="top" class="td26">
+        <p class="p13"><span class="s2">Presente</span></p>
+      </td>
+      <td valign="top" class="td27">
+        <p class="p21"><span class="s15">Direct</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td28">
+        <p class="p13"><span class="s2">Aller + inf</span></p>
+        <p class="p13"><span class="s2">Présent progressif</span></p>
+      </td>
+      <td valign="top" class="td29">
+        <p class="p13"><span class="s2">Ir + inf — vou cantar</span></p>
+        <p class="p13"><span class="s2"><i>Comme en anglais !</i><i></i></span></p>
+      </td>
+      <td valign="top" class="td30">
+        <p class="p21"><span class="s15">Parfait — ton instinct oral est juste</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td25">
+        <p class="p13"><span class="s2">Futur simple</span></p>
+      </td>
+      <td valign="top" class="td26">
+        <p class="p13"><span class="s2">Futuro simples — cantarei</span></p>
+      </td>
+      <td valign="top" class="td27">
+        <p class="p22"><span class="s16">Même valeur — encore plus reculé à l'oral BP</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td28">
+        <p class="p13"><span class="s2">Conditionnel</span></p>
+      </td>
+      <td valign="top" class="td29">
+        <p class="p13"><span class="s2">Futuro do pretérito</span></p>
+      </td>
+      <td valign="top" class="td30">
+        <p class="p23"><span class="s13">On utilise l'imperfeito à l'oral</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td25">
+        <p class="p13"><span class="s2">Futur antérieur</span></p>
+      </td>
+      <td valign="top" class="td26">
+        <p class="p13"><span class="s2">Futuro composto — terei cantado</span></p>
+      </td>
+      <td valign="top" class="td27">
+        <p class="p21"><span class="s15">Direct</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td28">
+        <p class="p13"><span class="s2">—</span></p>
+      </td>
+      <td valign="top" class="td29">
+        <p class="p13"><span class="s2">Haver de + inf</span></p>
+      </td>
+      <td valign="top" class="td30">
+        <p class="p24"><span class="s17">Destin — pas d'équivalent FR</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p5"><span class="s13">La différence à oral en BP</span></p>
+<p class="p14"><span class="s13">🇫🇷</span></p>
+<p class="p15"><span class="s13">Je voudrais un café. (conditionnel, stable en FR)</span></p>
+<p class="p14"><span class="s13">🇧🇷</span></p>
+<p class="p15"><span class="s13">Eu queria um café. (imperfeito, oral BP)</span></p>
+<p class="p18"><span class="s13">→ En BP oral, le conditionnel recule aussi vers l'imperfeito — pas seulement le futur simple vers ir+inf.</span></p>
+<p class="p2"><span class="s2">5</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Le passé en </span><span class="s3">français</span></h2>
+<p class="p4"><span class="s4">🇫🇷</span><span class="s2"> L'ASPECT AVANT LE TEMPS</span></p>
+<p class="p5"><span class="s2">La distinction centrale n'est pas chronologique mais aspectuelle :<span class="Apple-converted-space"> </span></span></p>
+<p class="p5"><span class="s2">accompli ou inaccompli,</span></p>
+<p class="p5"><span class="s2">registre oral ou écrit.</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Pendant qu'il </span><span class="s18">pleuvait</span><span class="s5"> [décor continu], elle </span><span class="s18">est entrée</span><span class="s5"> [événement ponctuel].</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Je </span><span class="s18">préparais </span><span class="s5">[décor continu] la sauce quand le téléphone </span><span class="s18">a sonné </span><span class="s5">[événement ponctuel].</span></p>
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td31">
+        <p class="p12"><span class="s2">Temps</span></p>
+      </td>
+      <td valign="middle" class="td32">
+        <p class="p12"><span class="s2">Aspect</span></p>
+      </td>
+      <td valign="middle" class="td33">
+        <p class="p12"><span class="s2">Registre</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td34">
+        <p class="p13"><span class="s2">Imparfait</span></p>
+      </td>
+      <td valign="top" class="td35">
+        <p class="p13"><span class="s2">Inaccompli, duratif</span></p>
+      </td>
+      <td valign="top" class="td36">
+        <p class="p13"><span class="s2">Tous</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td37">
+        <p class="p13"><span class="s2">Passé composé</span></p>
+      </td>
+      <td valign="top" class="td38">
+        <p class="p13"><span class="s2">Accompli, ponctuel</span></p>
+      </td>
+      <td valign="top" class="td39">
+        <p class="p13"><span class="s2">Oral</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td34">
+        <p class="p13"><span class="s2">Passé simple</span></p>
+      </td>
+      <td valign="top" class="td35">
+        <p class="p13"><span class="s2">Accompli, ponctuel</span></p>
+      </td>
+      <td valign="top" class="td36">
+        <p class="p13"><span class="s2">Écrit littéraire</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td37">
+        <p class="p13"><span class="s2">Plus-que-parfait</span></p>
+      </td>
+      <td valign="top" class="td38">
+        <p class="p13"><span class="s2">Accompli antérieur</span></p>
+      </td>
+      <td valign="top" class="td39">
+        <p class="p13"><span class="s2">Tous</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p25"><span class="s15">Passé composé et passé simple sont interchangeables en sens — même valeur aspectuelle : accompli, ponctuel. Seul le registre diffère. À l'oral et à l'écrit courant, on utilise le passé composé. Dans la fiction, le journal littéraire, la narration soutenue : le passé simple.</span></p>
+<p class="p5"><span class="s2">Le passé simple est quasi-mort à l'oral — sauf pour être : "ce fut magnifique" donne une clôture que le passé composé ne peut pas rendre.</span></p>
+<p class="p2"><span class="s2">6</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Le passé en </span><span class="s3">brésilien</span></h2>
+<p class="p4"><span class="s4">🇧🇷</span><span class="s2"> SIMILARITÉS ET DIFFÉRENCES</span></p>
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td40">
+        <p class="p12"><span class="s2">Brésilien</span></p>
+      </td>
+      <td valign="middle" class="td41">
+        <p class="p12"><span class="s2">Équiv. français</span></p>
+      </td>
+      <td valign="middle" class="td42">
+        <p class="p12"><span class="s2">Transfert</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td43">
+        <p class="p13"><span class="s2">Imperfeito — cantava</span></p>
+      </td>
+      <td valign="top" class="td44">
+        <p class="p13"><span class="s2">Imparfait</span></p>
+      </td>
+      <td valign="top" class="td45">
+        <p class="p21"><span class="s15">Direct</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td46">
+        <p class="p13"><span class="s2">Perfeito simples — cantei</span></p>
+      </td>
+      <td valign="top" class="td47">
+        <p class="p13"><span class="s2">P.Comp + P. Simple fusionnés</span></p>
+      </td>
+      <td valign="top" class="td48">
+        <p class="p21"><span class="s15">Direct et encore plus simple !</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td43">
+        <p class="p13"><span class="s2">Perfeito composto — tenho cantado</span></p>
+      </td>
+      <td valign="top" class="td44">
+        <p class="p13"><span class="s2">—</span></p>
+      </td>
+      <td valign="top" class="td45">
+        <p class="p23"><span class="s13">Piège — répétition récente, pas événement unique</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td46">
+        <p class="p13"><span class="s2">M-q-pft composé — tinha cantado</span></p>
+      </td>
+      <td valign="top" class="td47">
+        <p class="p13"><span class="s2">Plus-que-parfait</span></p>
+      </td>
+      <td valign="top" class="td48">
+        <p class="p21"><span class="s15">Direct</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td43">
+        <p class="p13"><span class="s2">M-q-pft simples — cantara</span></p>
+      </td>
+      <td valign="top" class="td44">
+        <p class="p13"><span class="s2">Passé antérieur</span></p>
+      </td>
+      <td valign="top" class="td45">
+        <p class="p22"><span class="s16">Littéraire — prestige — 8 verbes surtout utiles</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p5"><span class="s13">Le piège numéro un — tenho cantado ≠ j'ai chanté</span></p>
+<p class="p14"><span class="s13">🇧🇷</span></p>
+<p class="p26"><span class="s13">✓ Eu cantei ontem.</span></p>
+<p class="p17"><span class="s14">— J'ai chanté hier. (événement unique)</span></p>
+<p class="p14"><span class="s13">🇧🇷</span></p>
+<p class="p26"><span class="s13">✓ Tenho cantado muito ultimamente.</span></p>
+<p class="p17"><span class="s14">— Je chante beaucoup ces temps-ci. (répétition)</span></p>
+<p class="p14"><span class="s13">🇧🇷</span></p>
+<p class="p27"><span class="s13">✗ Tenho cantado ontem.</span></p>
+<p class="p17"><span class="s14">— FAUX</span></p>
+<p class="p2"><span class="s2">7</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Conditionnel et politesse en </span><span class="s3">français</span></h2>
+<p class="p4"><span class="s4">🇫🇷</span><span class="s2"> STABLE À L'ORAL</span></p>
+<p class="p5"><span class="s2">Structure française : [Si] à l'imparfait → [Alors] au conditionnel.</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p28"><span class="s2">[Si] j'avais de l'argent, [Alors] je voyagerais.</span></p>
+<p class="p15"><span class="s5"><i>Imparfait <span class="Apple-converted-space">                      </span>Conditionnel<span class="Apple-converted-space"> </span></i><i></i></span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Il a dit qu'il viendrait. (futur dans le passé)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Je voudrais un café. (politesse — stable à l'oral)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Ce ne serait pas correct. (atténuation)</span></p>
+<p class="p2"><span class="s2">8</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Conditionnel en </span><span class="s3">brésilien</span></h2>
+<p class="p29"><span class="s2"></span><br></p>
+<p class="p30"><span class="s2">Transfert direct à l’écrit.<span class="Apple-converted-space"> </span></span></p>
+<p class="p31"><span class="s13">Autre temps à l'oral</span></p>
+<p class="p29"><span class="s2"></span><br></p>
+<p class="p4"><span class="s4">🇧🇷</span><span class="s2"> MÊME VALEUR<span class="Apple-converted-space">  </span>—<span class="Apple-converted-space">  </span>A L’ECRIT le <b><i>conditionnel</i></b>, MAIS À L'ORAL on utilise <b><i>l’imperfeito</i></b></span></p>
+<p class="p32"><span class="s2"></span><br></p>
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td49">
+        <p class="p12"><span class="s2">Usage</span></p>
+      </td>
+      <td valign="middle" class="td50">
+        <p class="p12"><span class="s2">BP soutenu</span></p>
+      </td>
+      <td valign="middle" class="td51">
+        <p class="p12"><span class="s2">BP oral courant</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td52">
+        <p class="p13"><span class="s2">Politesse</span></p>
+      </td>
+      <td valign="top" class="td53">
+        <p class="p13"><span class="s2">gostaria — je voudrais </span><span class="s19">condic. simples</span></p>
+      </td>
+      <td valign="top" class="td54">
+        <p class="p13"><span class="s2">queria — je voudrais </span><span class="s19">imperfeito</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td55">
+        <p class="p13"><span class="s2">Hypothèse [Alors]</span></p>
+      </td>
+      <td valign="top" class="td56">
+        <p class="p13"><span class="s2">viajaria — je voyagerais </span><span class="s19">condic. simples</span></p>
+      </td>
+      <td valign="top" class="td57">
+        <p class="p13"><span class="s2">viajava — je voyagerais </span><span class="s19">imperfeito</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td52">
+        <p class="p13"><span class="s2">Futur dans le passé</span></p>
+      </td>
+      <td valign="top" class="td53">
+        <p class="p13"><span class="s2">viria — il viendrait </span><span class="s19">condic. simples</span></p>
+      </td>
+      <td valign="top" class="td54">
+        <p class="p13"><span class="s2">viria — stable </span><span class="s19">condic. simples</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td55">
+        <p class="p13"><span class="s2">Probabilité passée</span></p>
+      </td>
+      <td valign="top" class="td56">
+        <p class="p13"><span class="s2">seriam umas 10h — il devait être 10h </span><span class="s19">condic. simples</span></p>
+      </td>
+      <td valign="top" class="td57">
+        <p class="p13"><span class="s2">seriam — stable </span><span class="s19">condic. simples</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p33"><span class="s2">Le BP très oral : Se eu tinha dinheiro, eu comprava. — les deux propositions à l'imperfeito. Agrammatical en français, courant en BP populaire.</span></p>
+<p class="p25"><span class="s13">#[a traduire]</span></p>
+<p class="p2"><span class="s2">9</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Le subjonctif en </span><span class="s3">français</span></h2>
+<p class="p34"><span class="s2"></span><br></p>
+<p class="p4"><span class="s4">🇫🇷</span><span class="s2"> VIVANT ET ABONDANT À L'ORAL</span></p>
+<p class="p5"><span class="s2">Ton atout majeur pour le brésilien. Tu l'utilises naturellement là où d'autres langues partent de zéro.</span></p>
+<p class="p35"><span class="s2">Il</span><span class="s20"> </span><span class="s2">exprime</span><span class="s20"> </span><span class="s2">l’incertitude, l’éventualité.<span class="Apple-converted-space"> </span></span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Il faut que tu viennes. — que tu fasses. — bien qu'il soit là.</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Bien qu'il chantât… (imparfait — littéraire)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p28"><span class="s2">Bien qu'il eût chanté… (plus-que-parfait — très littéraire, chic)</span></p>
+<p class="p36"><span class="s2"></span><br></p>
+<p class="p15"><span class="s5">En pratique, l’usage du subjonctif se résume à très peu de verbes : être, avoir, vouloir, pouvoir, devoir, falloir, aller, venir. Les autres verbes s’emploient rarement.<span class="Apple-converted-space"> </span></span></p>
+<p class="p2"><span class="s2">10</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Le subjonctif en </span><span class="s3">brésilien</span></h2>
+<p class="p20"><span class="s15">Transfert direct</span></p>
+<p class="p37"><span class="s2">Comme</span><span class="s4"> </span><span class="s2">en</span><span class="s4"> </span><span class="s2">français !</span></p>
+<p class="p14"><span class="s9">🇫🇷</span></p>
+<p class="p15"><span class="s9">Il faut que tu viennes.</span></p>
+<p class="p14"><span class="s9">🇧🇷</span></p>
+<p class="p15"><span class="s9">É preciso que você venha.</span></p>
+<p class="p14"><span class="s9">🇫🇷</span></p>
+<p class="p15"><span class="s9">Bien qu'il soit fatigué, il continue.</span></p>
+<p class="p14"><span class="s9">🇧🇷</span></p>
+<p class="p38"><span class="s2">Embora ele esteja cansado, ele continua.</span></p>
+<p class="p15"><span class="s9">On peut s’en sortir avec les mêmes 8 verbes qu’on utilise en français. Ça fait de l’effet, pour peu de travail !</span></p>
+<p class="p5"><span class="s17">Le futuro do subjuntivo — unique au portugais, vivant à l'oral</span></p>
+<p class="p37"><span class="s21">#[</span><span class="s22"> </span><span class="s21">explique</span><span class="s22"> </span><span class="s21">ce</span><span class="s22"> </span><span class="s21">qui</span><span class="s22"> </span><span class="s21">est</span><span class="s22"> </span><span class="s21">sim</span><span class="s23">ilaire et différent dans un langage simple ]</span></p>
+<p class="p14"><span class="s17">🇫🇷</span></p>
+<p class="p15"><span class="s17">Quand tu arriveras, appelle-moi. (futur indicatif en FR)</span></p>
+<p class="p14"><span class="s17">🇧🇷</span></p>
+<p class="p15"><span class="s17">Quando você chegar, me liga. (subj. futur en BP)</span></p>
+<p class="p14"><span class="s17">🇧🇷</span></p>
+<p class="p15"><span class="s17">Se você quiser, podemos sair mais cedo.</span></p>
+<p class="p18"><span class="s17">→ Si tu veux, on peut partir plus tôt.</span></p>
+<p class="p5"><span class="s2">Les 8 irréguliers du futuro do subjuntivo :</span></p>
+<p class="p39"><span class="s2">#[</span><span class="s4"> </span><span class="s2">explique</span><span class="s4"> </span><span class="s2">en plus sur ces verbes , par apport aux autres + traduction des verbes<span class="Apple-converted-space">  </span>]</span></p>
+<p class="p40"><span class="s2">for</span></p>
+<p class="p40"><span class="s2">tiver</span></p>
+<p class="p40"><span class="s2">puder</span></p>
+<p class="p40"><span class="s2">quiser</span></p>
+<p class="p40"><span class="s2">fizer</span></p>
+<p class="p40"><span class="s2">souber</span></p>
+<p class="p40"><span class="s2">vier</span></p>
+<p class="p40"><span class="s2">disser</span></p>
+<p class="p40"><span class="s2">[A TRADUIRE]</span></p>
+<p class="p2"><span class="s2">11</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Passé antérieur et futur antérieur en </span><span class="s3">français</span></h2>
+<p class="p4"><span class="s4">🇫🇷</span><span class="s2"> LES TEMPS DE L'ANTÉRIORITÉ</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Quand il est arrivé, j'avais déjà terminé. (plus-que-parfait — courant)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Quand il eut fini, il sortit. (passé antérieur — littéraire)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">J'aurai fini avant que tu arrives. (futur antérieur — antériorité)</span></p>
+<p class="p14"><span class="s5">🇫🇷</span></p>
+<p class="p15"><span class="s5">Il n'est pas là — il aura raté son train. (futur antérieur — supposition)</span></p>
+<p class="p2"><span class="s2">12</span></p>
+<h2 style="margin: 0.0px 0.0px 4.8px 0.0px; font: 24.0px 'Helvetica Neue'; color: #0c141f; -webkit-text-stroke: #0c141f"><span class="s2">Passé antérieur et futur antérieur en </span><span class="s3">brésilien</span></h2>
+<p class="p37"><span class="s2">#[</span><span class="s4"> </span><span class="s2">explicite</span><span class="s4"> </span><span class="s2">ce</span><span class="s4"> </span><span class="s2">qui</span><span class="s4"> </span><span class="s2">est</span><span class="s4"> </span><span class="s2">similaire et différent dans un langage simple ]</span></p>
+<p class="p4"><span class="s4">🇧🇷</span><span class="s2"> SIMILARITÉS ET DIFFÉRENCES</span></p>
+<p class="p14"><span class="s9">🇫🇷</span></p>
+<p class="p15"><span class="s9">J'avais déjà terminé.</span></p>
+<p class="p14"><span class="s9">🇧🇷</span></p>
+<p class="p15"><span class="s9">Eu já tinha terminado. (courant, prioritaire)</span></p>
+<p class="p14"><span class="s9">🇧🇷</span></p>
+<p class="p15"><span class="s9">Eu já terminara. (littéraire — prestige)</span></p>
+<p class="p5"><span class="s2">Les 8 formes du mais-que-perfeito simples — comme "ce fut" à l'oral en français :</span></p>
+<p class="p37"><span class="s23">#[</span><span class="s4"> </span><span class="s23">sois plus explicite ici<span class="Apple-converted-space">  </span>]</span></p>
+<p class="p40"><span class="s2">fora</span></p>
+<p class="p40"><span class="s2">tivera</span></p>
+<p class="p40"><span class="s2">pudera</span></p>
+<p class="p40"><span class="s2">quisera</span></p>
+<p class="p40"><span class="s2">fizera</span></p>
+<p class="p40"><span class="s2">soubera</span></p>
+<p class="p40"><span class="s2">viera</span></p>
+<p class="p40"><span class="s2">dissera</span></p>
+<p class="p25"><span class="s15">Principe fondateur de cet anti-manuel — Le présent d'abord, solide et complet. Puis quelques formes rares, bien choisies, qui font tout l'effet. La langue s'apprend de l'intérieur, pas depuis un descriptif externe.</span></p>
+<p class="p41"><span class="s24">🇧🇷</span><span class="s25"> Portugais Brésilien · </span><span class="s1">Anti-Manuel</span><span class="s25"> &amp; </span><span class="s1">Fiches grammaticales</span></p>
+<p class="p42"><span class="s1">Un seul fichier · Prêt pour le build</span></p>
 </body>
 </html>
